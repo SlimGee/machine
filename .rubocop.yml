@@ -1,8 +1,143 @@
 # Omakase Ruby styling for Rails
-inherit_gem: { rubocop-rails-omakase: rubocop.yml }
-
+#inherit_gem: {rubocop-rails-omakase: rubocop.yml}
 # Overwrite or add rules to create your own house style
 #
 # # Use `[a, [b, c]]` not `[ a, [ b, c ] ]`
 # Layout/SpaceInsideArrayLiteralBrackets:
 #   Enabled: false
+require:
+  - rubocop-rails
+  - rubocop-performance
+AllCops:
+  NewCops: enable
+  TargetRubyVersion: 3.3
+  TargetRailsVersion: 8
+  Exclude:
+    - 'db/schema.rb'
+    - 'node_modules/**/*'
+    - 'bin/**/*'
+    - 'vendor/**/*'
+    - 'tmp/**/*'
+Metrics/BlockLength:
+  Enabled: true
+  Exclude:
+    - 'config/routes.rb'
+Style/StringLiterals:
+  Enabled: true
+  EnforcedStyle: single_quotes
+  ConsistentQuotesInMultiline: true
+# Related string quote configurations for consistency
+Style/StringLiteralsInInterpolation:
+  Enabled: true
+  EnforcedStyle: single_quotes
+Style/QuotedSymbols:
+  Enabled: true
+  EnforcedStyle: single_quotes
+# Configure string-related cops
+Style/FrozenStringLiteralComment:
+  Enabled: false
+Style/MutableConstant:
+  Enabled: true
+# Additional string-related configurations
+Style/StringMethods:
+  Enabled: true
+Style/StringConcatenation:
+  Enabled: true
+  EnforcedStyle: prefer_interpolation
+Style/StringHashKeys:
+  Enabled: true
+# Performance optimizations for string operations
+Performance/StringReplacement:
+  Enabled: true
+Performance/RedundantStringChars:
+  Enabled: true
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+Layout/FirstHashElementIndentation:
+  EnforcedStyle: consistent
+Layout/ArgumentAlignment:
+  EnforcedStyle: with_fixed_indentation
+Style/Documentation:
+  Enabled: false
+Style/SymbolArray:
+  EnforcedStyle: brackets
+Style/WordArray:
+  EnforcedStyle: brackets
+Style/ClassAndModuleChildren:
+  EnforcedStyle: compact
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: consistent_comma
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: consistent_comma
+Style/TrailingCommaInArguments:
+  EnforcedStyleForMultiline: consistent_comma
+Style/HashSyntax:
+  EnforcedStyle: ruby19_no_mixed_keys
+Style/MethodCallWithArgsParentheses:
+  EnforcedStyle: require_parentheses
+  IgnoredMethods:
+    - puts
+    - require
+    - require_relative
+    - yield
+    - raise
+    - include
+    - extend
+# Metrics configurations
+Metrics/BlockLength:
+  Exclude:
+    - 'config/routes.rb'
+    - 'config/environments/*.rb'
+    - 'spec/**/*.rb'
+    - 'lib/tasks/*.rake'
+Metrics/MethodLength:
+  Max: 20
+  Exclude:
+    - 'db/migrate/*.rb'
+Metrics/AbcSize:
+  Max: 20
+Metrics/ClassLength:
+  Max: 200
+  Exclude:
+    - 'db/migrate/*.rb'
+Metrics/CyclomaticComplexity:
+  Max: 10
+Style/EmptyMethod:
+  Enabled: false
+# Rails specific configurations
+Rails:
+  Enabled: true
+Rails/FilePath:
+  EnforcedStyle: slashes
+Rails/HasAndBelongsToMany:
+  Enabled: false
+Rails/HasManyOrHasOneDependent:
+  Enabled: true
+Rails/OutputSafety:
+  Enabled: true
+Rails/UnknownEnv:
+  Environments:
+    - production
+    - development
+    - test
+    - staging
+Performance/Casecmp:
+  Enabled: true
+Performance/RedundantMerge:
+  Enabled: true
+Performance/StringReplacement:
+  Enabled: true
+# Naming configurations
+Naming/FileName:
+  Exclude:
+    - 'Gemfile'
+    - 'Rakefile'
+    - 'Capfile'
+# Bundler configurations
+Bundler/OrderedGems:
+  Enabled: true
+# Security configurations
+Security/Eval:
+  Enabled: true
+Security/YAMLLoad:
+  Enabled: true

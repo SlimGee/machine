@@ -1,0 +1,276 @@
+# Logfile created on 2025-02-19 12:34:55 +0200 by logger.rb/v1.6.6
+I, [2025-02-19T12:51:14.529941 #51095]  INFO -- : Starting comprehensive threat intel collection
+I, [2025-02-19T12:51:16.933893 #51095]  INFO -- : Data collection complete, preparing datasets
+I, [2025-02-19T12:51:16.936772 #51095]  INFO -- : Dataset preparation complete
+I, [2025-02-19T12:51:16.936797 #51095]  INFO -- : Preparing final datasets for The Machine
+I, [2025-02-19T12:51:16.937616 #51095]  INFO -- : Prepared time series dataset with 0 rows
+I, [2025-02-19T12:51:16.938296 #51095]  INFO -- : Prepared classification dataset with 0 rows
+I, [2025-02-19T12:51:16.938977 #51095]  INFO -- : Prepared anomaly detection dataset with 0 rows
+I, [2025-02-19T12:51:16.939166 #51095]  INFO -- : Prepared LSTM sequence dataset with 0 sequences
+I, [2025-02-19T12:51:16.939658 #51095]  INFO -- : Prepared GNN graph dataset with 0 nodes
+I, [2025-02-19T12:51:16.939707 #51095]  INFO -- : All final datasets prepared for The Machine
+I, [2025-02-19T12:54:50.942047 #51823]  INFO -- : Starting comprehensive threat intel collection
+I, [2025-02-19T12:54:54.007171 #51823]  INFO -- : Data collection complete, preparing datasets
+I, [2025-02-19T12:54:54.010637 #51823]  INFO -- : Dataset preparation complete
+I, [2025-02-19T12:54:54.010664 #51823]  INFO -- : Preparing final datasets for The Machine
+I, [2025-02-19T12:54:54.011547 #51823]  INFO -- : Prepared time series dataset with 0 rows
+I, [2025-02-19T12:54:54.012291 #51823]  INFO -- : Prepared classification dataset with 0 rows
+I, [2025-02-19T12:54:54.012955 #51823]  INFO -- : Prepared anomaly detection dataset with 0 rows
+I, [2025-02-19T12:54:54.013154 #51823]  INFO -- : Prepared LSTM sequence dataset with 0 sequences
+I, [2025-02-19T12:54:54.013721 #51823]  INFO -- : Prepared GNN graph dataset with 0 nodes
+I, [2025-02-19T12:54:54.013775 #51823]  INFO -- : All final datasets prepared for The Machine
+I, [2025-02-19T13:39:38.309788 #54870]  INFO -- : Starting comprehensive threat intel collection
+I, [2025-02-19T13:40:12.303064 #54870]  INFO -- : Data collection complete, preparing datasets
+I, [2025-02-19T13:40:12.306499 #54870]  INFO -- : Dataset preparation complete
+I, [2025-02-19T13:40:12.306528 #54870]  INFO -- : Preparing final datasets for The Machine
+I, [2025-02-19T13:40:12.307276 #54870]  INFO -- : Prepared time series dataset with 0 rows
+I, [2025-02-19T13:40:12.307605 #54870]  INFO -- : Prepared classification dataset with 0 rows
+I, [2025-02-19T13:40:12.307916 #54870]  INFO -- : Prepared anomaly detection dataset with 0 rows
+I, [2025-02-19T13:40:12.308058 #54870]  INFO -- : Prepared LSTM sequence dataset with 0 sequences
+I, [2025-02-19T13:40:12.308377 #54870]  INFO -- : Prepared GNN graph dataset with 0 nodes
+I, [2025-02-19T13:40:12.308405 #54870]  INFO -- : All final datasets prepared for The Machine
+I, [2025-02-19T13:41:41.955321 #55405]  INFO -- : Starting comprehensive threat intel collection
+I, [2025-02-19T13:41:59.272888 #55405]  INFO -- : Data collection complete, preparing datasets
+I, [2025-02-19T13:41:59.276227 #55405]  INFO -- : Dataset preparation complete
+I, [2025-02-19T13:41:59.276255 #55405]  INFO -- : Preparing final datasets for The Machine
+I, [2025-02-19T13:41:59.277124 #55405]  INFO -- : Prepared time series dataset with 0 rows
+I, [2025-02-19T13:41:59.277767 #55405]  INFO -- : Prepared classification dataset with 0 rows
+I, [2025-02-19T13:41:59.278288 #55405]  INFO -- : Prepared anomaly detection dataset with 0 rows
+I, [2025-02-19T13:41:59.278483 #55405]  INFO -- : Prepared LSTM sequence dataset with 0 sequences
+I, [2025-02-19T13:41:59.279033 #55405]  INFO -- : Prepared GNN graph dataset with 0 nodes
+I, [2025-02-19T13:41:59.279085 #55405]  INFO -- : All final datasets prepared for The Machine
+I, [2025-02-19T13:43:32.105111 #55711]  INFO -- : Starting comprehensive threat intel collection
+E, [2025-02-19T13:43:52.430962 #55711] ERROR -- : NVD collection failed: "\xC3" from ASCII-8BIT to UTF-8
+I, [2025-02-19T13:43:52.431002 #55711]  INFO -- : Data collection complete, preparing datasets
+I, [2025-02-19T13:43:52.432524 #55711]  INFO -- : Dataset preparation complete
+I, [2025-02-19T13:43:52.432548 #55711]  INFO -- : Preparing final datasets for The Machine
+I, [2025-02-19T13:43:52.432989 #55711]  INFO -- : Prepared time series dataset with 0 rows
+I, [2025-02-19T13:43:52.433240 #55711]  INFO -- : Prepared classification dataset with 0 rows
+I, [2025-02-19T13:43:52.433482 #55711]  INFO -- : Prepared anomaly detection dataset with 0 rows
+I, [2025-02-19T13:43:52.433603 #55711]  INFO -- : Prepared LSTM sequence dataset with 0 sequences
+I, [2025-02-19T13:43:52.433836 #55711]  INFO -- : Prepared GNN graph dataset with 0 nodes
+I, [2025-02-19T13:43:52.433899 #55711]  INFO -- : All final datasets prepared for The Machine
+I, [2025-02-19T13:47:07.068027 #56208]  INFO -- : Starting comprehensive threat intel collection
+I, [2025-02-19T13:47:20.206119 #56208]  INFO -- : Data collection complete, preparing datasets
+I, [2025-02-19T13:47:20.209434 #56208]  INFO -- : Dataset preparation complete
+I, [2025-02-19T13:47:20.209461 #56208]  INFO -- : Preparing final datasets for The Machine
+I, [2025-02-19T13:47:20.210380 #56208]  INFO -- : Prepared time series dataset with 0 rows
+I, [2025-02-19T13:47:20.210985 #56208]  INFO -- : Prepared classification dataset with 0 rows
+I, [2025-02-19T13:47:20.211220 #56208]  INFO -- : Prepared anomaly detection dataset with 0 rows
+I, [2025-02-19T13:47:20.211379 #56208]  INFO -- : Prepared LSTM sequence dataset with 0 sequences
+I, [2025-02-19T13:47:20.211660 #56208]  INFO -- : Prepared GNN graph dataset with 0 nodes
+I, [2025-02-19T13:47:20.211715 #56208]  INFO -- : All final datasets prepared for The Machine
+I, [2025-02-19T13:47:28.606857 #56361]  INFO -- : Starting comprehensive threat intel collection
+E, [2025-02-19T13:48:06.588039 #56361] ERROR -- : NVD collection failed: "\xC3" from ASCII-8BIT to UTF-8
+I, [2025-02-19T13:48:06.588078 #56361]  INFO -- : Data collection complete, preparing datasets
+I, [2025-02-19T13:48:06.589252 #56361]  INFO -- : Dataset preparation complete
+I, [2025-02-19T13:48:06.589262 #56361]  INFO -- : Preparing final datasets for The Machine
+I, [2025-02-19T13:48:06.589679 #56361]  INFO -- : Prepared time series dataset with 0 rows
+I, [2025-02-19T13:48:06.589968 #56361]  INFO -- : Prepared classification dataset with 0 rows
+I, [2025-02-19T13:48:06.590244 #56361]  INFO -- : Prepared anomaly detection dataset with 0 rows
+I, [2025-02-19T13:48:06.590394 #56361]  INFO -- : Prepared LSTM sequence dataset with 0 sequences
+I, [2025-02-19T13:48:06.590666 #56361]  INFO -- : Prepared GNN graph dataset with 0 nodes
+I, [2025-02-19T13:48:06.590718 #56361]  INFO -- : All final datasets prepared for The Machine
+I, [2025-02-19T13:51:11.741770 #56876]  INFO -- : Starting comprehensive threat intel collection
+I, [2025-02-19T13:51:13.564109 #56876]  INFO -- : Data collection complete, preparing datasets
+I, [2025-02-19T13:51:13.570516 #56876]  INFO -- : Dataset preparation complete
+I, [2025-02-19T13:51:13.570562 #56876]  INFO -- : Preparing final datasets for The Machine
+I, [2025-02-19T13:51:13.571841 #56876]  INFO -- : Prepared time series dataset with 0 rows
+I, [2025-02-19T13:51:13.572772 #56876]  INFO -- : Prepared classification dataset with 0 rows
+I, [2025-02-19T13:51:13.573567 #56876]  INFO -- : Prepared anomaly detection dataset with 0 rows
+I, [2025-02-19T13:51:13.573849 #56876]  INFO -- : Prepared LSTM sequence dataset with 0 sequences
+I, [2025-02-19T13:51:13.574150 #56876]  INFO -- : Prepared GNN graph dataset with 0 nodes
+I, [2025-02-19T13:51:13.574346 #56876]  INFO -- : All final datasets prepared for The Machine
+I, [2025-02-19T13:51:17.911246 #56985]  INFO -- : Starting comprehensive threat intel collection
+E, [2025-02-19T13:51:50.074937 #56985] ERROR -- : NVD collection failed: "\xC3" from ASCII-8BIT to UTF-8
+I, [2025-02-19T13:51:50.074988 #56985]  INFO -- : Data collection complete, preparing datasets
+I, [2025-02-19T13:51:50.076127 #56985]  INFO -- : Dataset preparation complete
+I, [2025-02-19T13:51:50.076139 #56985]  INFO -- : Preparing final datasets for The Machine
+I, [2025-02-19T13:51:50.076552 #56985]  INFO -- : Prepared time series dataset with 0 rows
+I, [2025-02-19T13:51:50.076813 #56985]  INFO -- : Prepared classification dataset with 0 rows
+I, [2025-02-19T13:51:50.077299 #56985]  INFO -- : Prepared anomaly detection dataset with 0 rows
+I, [2025-02-19T13:51:50.077397 #56985]  INFO -- : Prepared LSTM sequence dataset with 0 sequences
+I, [2025-02-19T13:51:50.077504 #56985]  INFO -- : Prepared GNN graph dataset with 0 nodes
+I, [2025-02-19T13:51:50.077528 #56985]  INFO -- : All final datasets prepared for The Machine
+I, [2025-02-19T13:52:24.270504 #57184]  INFO -- : Starting comprehensive threat intel collection
+E, [2025-02-19T13:52:43.812950 #57184] ERROR -- : NVD collection failed: "\xC3" from ASCII-8BIT to UTF-8
+I, [2025-02-19T13:52:43.813000 #57184]  INFO -- : Data collection complete, preparing datasets
+I, [2025-02-19T13:52:43.814180 #57184]  INFO -- : Dataset preparation complete
+I, [2025-02-19T13:52:43.814197 #57184]  INFO -- : Preparing final datasets for The Machine
+I, [2025-02-19T13:52:43.814557 #57184]  INFO -- : Prepared time series dataset with 0 rows
+I, [2025-02-19T13:52:43.814814 #57184]  INFO -- : Prepared classification dataset with 0 rows
+I, [2025-02-19T13:52:43.815688 #57184]  INFO -- : Prepared anomaly detection dataset with 0 rows
+I, [2025-02-19T13:52:43.815828 #57184]  INFO -- : Prepared LSTM sequence dataset with 0 sequences
+I, [2025-02-19T13:52:43.815948 #57184]  INFO -- : Prepared GNN graph dataset with 0 nodes
+I, [2025-02-19T13:52:43.815970 #57184]  INFO -- : All final datasets prepared for The Machine
+I, [2025-02-19T13:53:58.741051 #57531]  INFO -- : Starting comprehensive threat intel collection
+I, [2025-02-19T13:54:44.294602 #57531]  INFO -- : Data collection complete, preparing datasets
+I, [2025-02-19T13:54:44.311384 #57531]  INFO -- : Dataset preparation complete
+I, [2025-02-19T13:54:44.311406 #57531]  INFO -- : Preparing final datasets for The Machine
+I, [2025-02-19T13:54:44.312135 #57531]  INFO -- : Prepared time series dataset with 0 rows
+I, [2025-02-19T13:54:44.312524 #57531]  INFO -- : Prepared classification dataset with 0 rows
+I, [2025-02-19T13:54:44.312946 #57531]  INFO -- : Prepared anomaly detection dataset with 0 rows
+I, [2025-02-19T13:54:44.313133 #57531]  INFO -- : Prepared LSTM sequence dataset with 0 sequences
+I, [2025-02-19T13:54:44.319593 #57531]  INFO -- : Prepared GNN graph dataset with 0 nodes
+I, [2025-02-19T13:54:44.319677 #57531]  INFO -- : All final datasets prepared for The Machine
+I, [2025-02-19T13:58:13.765024 #58644]  INFO -- : Starting comprehensive threat intel collection
+I, [2025-02-19T13:58:44.484908 #58644]  INFO -- : Data collection complete, preparing datasets
+I, [2025-02-19T13:58:44.492749 #58644]  INFO -- : Dataset preparation complete
+I, [2025-02-19T13:58:44.492778 #58644]  INFO -- : Preparing final datasets for The Machine
+I, [2025-02-19T13:58:44.493876 #58644]  INFO -- : Prepared time series dataset with 0 rows
+I, [2025-02-19T13:58:44.494517 #58644]  INFO -- : Prepared classification dataset with 0 rows
+I, [2025-02-19T13:58:44.495040 #58644]  INFO -- : Prepared anomaly detection dataset with 0 rows
+I, [2025-02-19T13:58:44.495244 #58644]  INFO -- : Prepared LSTM sequence dataset with 0 sequences
+I, [2025-02-19T13:58:44.495484 #58644]  INFO -- : Prepared GNN graph dataset with 0 nodes
+I, [2025-02-19T13:58:44.495521 #58644]  INFO -- : All final datasets prepared for The Machine
+I, [2025-02-19T13:59:19.094627 #58872]  INFO -- : Starting comprehensive threat intel collection
+I, [2025-02-19T13:59:21.426983 #58872]  INFO -- : Data collection complete, preparing datasets
+I, [2025-02-19T13:59:21.432764 #58872]  INFO -- : Dataset preparation complete
+I, [2025-02-19T13:59:21.432808 #58872]  INFO -- : Preparing final datasets for The Machine
+I, [2025-02-19T13:59:21.433886 #58872]  INFO -- : Prepared time series dataset with 0 rows
+I, [2025-02-19T13:59:21.434590 #58872]  INFO -- : Prepared classification dataset with 0 rows
+I, [2025-02-19T13:59:21.435175 #58872]  INFO -- : Prepared anomaly detection dataset with 0 rows
+I, [2025-02-19T13:59:21.435421 #58872]  INFO -- : Prepared LSTM sequence dataset with 0 sequences
+I, [2025-02-19T13:59:21.435701 #58872]  INFO -- : Prepared GNN graph dataset with 0 nodes
+I, [2025-02-19T13:59:21.435748 #58872]  INFO -- : All final datasets prepared for The Machine
+I, [2025-02-19T13:59:28.514726 #58996]  INFO -- : Starting comprehensive threat intel collection
+I, [2025-02-19T13:59:29.689372 #58996]  INFO -- : Data collection complete, preparing datasets
+I, [2025-02-19T13:59:29.696290 #58996]  INFO -- : Dataset preparation complete
+I, [2025-02-19T13:59:29.696336 #58996]  INFO -- : Preparing final datasets for The Machine
+I, [2025-02-19T13:59:29.697582 #58996]  INFO -- : Prepared time series dataset with 0 rows
+I, [2025-02-19T13:59:29.698495 #58996]  INFO -- : Prepared classification dataset with 0 rows
+I, [2025-02-19T13:59:29.699331 #58996]  INFO -- : Prepared anomaly detection dataset with 0 rows
+I, [2025-02-19T13:59:29.699643 #58996]  INFO -- : Prepared LSTM sequence dataset with 0 sequences
+I, [2025-02-19T13:59:29.700025 #58996]  INFO -- : Prepared GNN graph dataset with 0 nodes
+I, [2025-02-19T13:59:29.700094 #58996]  INFO -- : All final datasets prepared for The Machine
+I, [2025-02-19T13:59:32.308534 #59104]  INFO -- : Starting comprehensive threat intel collection
+I, [2025-02-19T13:59:33.617460 #59104]  INFO -- : Data collection complete, preparing datasets
+I, [2025-02-19T13:59:33.624491 #59104]  INFO -- : Dataset preparation complete
+I, [2025-02-19T13:59:33.624572 #59104]  INFO -- : Preparing final datasets for The Machine
+I, [2025-02-19T13:59:33.625562 #59104]  INFO -- : Prepared time series dataset with 0 rows
+I, [2025-02-19T13:59:33.626425 #59104]  INFO -- : Prepared classification dataset with 0 rows
+I, [2025-02-19T13:59:33.627543 #59104]  INFO -- : Prepared anomaly detection dataset with 0 rows
+I, [2025-02-19T13:59:33.627989 #59104]  INFO -- : Prepared LSTM sequence dataset with 0 sequences
+I, [2025-02-19T13:59:33.628223 #59104]  INFO -- : Prepared GNN graph dataset with 0 nodes
+I, [2025-02-19T13:59:33.628263 #59104]  INFO -- : All final datasets prepared for The Machine
+I, [2025-02-19T13:59:36.060054 #59214]  INFO -- : Starting comprehensive threat intel collection
+I, [2025-02-19T13:59:45.590393 #59214]  INFO -- : Data collection complete, preparing datasets
+I, [2025-02-19T13:59:45.594685 #59214]  INFO -- : Dataset preparation complete
+I, [2025-02-19T13:59:45.594699 #59214]  INFO -- : Preparing final datasets for The Machine
+I, [2025-02-19T13:59:45.595098 #59214]  INFO -- : Prepared time series dataset with 0 rows
+I, [2025-02-19T13:59:45.595346 #59214]  INFO -- : Prepared classification dataset with 0 rows
+I, [2025-02-19T13:59:45.595533 #59214]  INFO -- : Prepared anomaly detection dataset with 0 rows
+I, [2025-02-19T13:59:45.595607 #59214]  INFO -- : Prepared LSTM sequence dataset with 0 sequences
+I, [2025-02-19T13:59:45.595685 #59214]  INFO -- : Prepared GNN graph dataset with 0 nodes
+I, [2025-02-19T13:59:45.595700 #59214]  INFO -- : All final datasets prepared for The Machine
+I, [2025-02-19T14:00:32.320167 #59397]  INFO -- : Starting comprehensive threat intel collection
+I, [2025-02-19T14:00:33.953288 #59397]  INFO -- : Data collection complete, preparing datasets
+I, [2025-02-19T14:00:33.958873 #59397]  INFO -- : Dataset preparation complete
+I, [2025-02-19T14:00:33.958920 #59397]  INFO -- : Preparing final datasets for The Machine
+I, [2025-02-19T14:00:33.959779 #59397]  INFO -- : Prepared time series dataset with 0 rows
+I, [2025-02-19T14:00:33.960583 #59397]  INFO -- : Prepared classification dataset with 0 rows
+I, [2025-02-19T14:00:33.961161 #59397]  INFO -- : Prepared anomaly detection dataset with 0 rows
+I, [2025-02-19T14:00:33.961403 #59397]  INFO -- : Prepared LSTM sequence dataset with 0 sequences
+I, [2025-02-19T14:00:33.961650 #59397]  INFO -- : Prepared GNN graph dataset with 0 nodes
+I, [2025-02-19T14:00:33.961706 #59397]  INFO -- : All final datasets prepared for The Machine
+I, [2025-02-19T14:02:22.613765 #59844]  INFO -- : Starting comprehensive threat intel collection
+I, [2025-02-19T14:03:22.667071 #59844]  INFO -- : Data collection complete, preparing datasets
+I, [2025-02-19T14:03:22.672240 #59844]  INFO -- : Dataset preparation complete
+I, [2025-02-19T14:03:22.672269 #59844]  INFO -- : Preparing final datasets for The Machine
+I, [2025-02-19T14:03:22.673265 #59844]  INFO -- : Prepared time series dataset with 0 rows
+I, [2025-02-19T14:03:22.673894 #59844]  INFO -- : Prepared classification dataset with 0 rows
+I, [2025-02-19T14:03:22.674389 #59844]  INFO -- : Prepared anomaly detection dataset with 0 rows
+I, [2025-02-19T14:03:22.674579 #59844]  INFO -- : Prepared LSTM sequence dataset with 0 sequences
+I, [2025-02-19T14:03:22.674769 #59844]  INFO -- : Prepared GNN graph dataset with 0 nodes
+I, [2025-02-19T14:03:22.674806 #59844]  INFO -- : All final datasets prepared for The Machine
+I, [2025-02-19T14:10:34.127792 #61093]  INFO -- : Starting comprehensive threat intel collection
+I, [2025-02-19T14:11:11.233750 #61093]  INFO -- : Data collection complete, preparing datasets
+I, [2025-02-19T14:11:11.240396 #61093]  INFO -- : Dataset preparation complete
+I, [2025-02-19T14:11:11.240414 #61093]  INFO -- : Preparing final datasets for The Machine
+I, [2025-02-19T14:11:11.240951 #61093]  INFO -- : Prepared time series dataset with 0 rows
+I, [2025-02-19T14:11:11.241306 #61093]  INFO -- : Prepared classification dataset with 0 rows
+I, [2025-02-19T14:11:11.241591 #61093]  INFO -- : Prepared anomaly detection dataset with 0 rows
+I, [2025-02-19T14:11:11.241695 #61093]  INFO -- : Prepared LSTM sequence dataset with 0 sequences
+I, [2025-02-19T14:11:11.241810 #61093]  INFO -- : Prepared GNN graph dataset with 0 nodes
+I, [2025-02-19T14:11:11.241830 #61093]  INFO -- : All final datasets prepared for The Machine
+I, [2025-02-19T14:14:06.726476 #61531]  INFO -- : Starting comprehensive threat intel collection
+I, [2025-02-19T14:14:19.025603 #61531]  INFO -- : Data collection complete, preparing datasets
+I, [2025-02-19T14:14:19.051677 #61531]  INFO -- : Dataset preparation complete
+I, [2025-02-19T14:14:19.051694 #61531]  INFO -- : Preparing final datasets for The Machine
+I, [2025-02-19T14:14:19.054319 #61531]  INFO -- : Prepared time series dataset with 0 rows
+I, [2025-02-19T14:14:19.054773 #61531]  INFO -- : Prepared classification dataset with 0 rows
+I, [2025-02-19T14:14:19.055068 #61531]  INFO -- : Prepared anomaly detection dataset with 0 rows
+I, [2025-02-19T14:14:19.055182 #61531]  INFO -- : Prepared LSTM sequence dataset with 0 sequences
+I, [2025-02-19T14:14:19.055299 #61531]  INFO -- : Prepared GNN graph dataset with 0 nodes
+I, [2025-02-19T14:14:19.055319 #61531]  INFO -- : All final datasets prepared for The Machine
+I, [2025-02-19T14:18:40.442156 #62401]  INFO -- : Starting comprehensive threat intel collection
+E, [2025-02-19T14:18:40.442599 #62401] ERROR -- : NVD collection failed: undefined local variable or method `endendend_date' for an instance of Ingestion::Gather::ThreatIntelCollector
+I, [2025-02-19T14:18:40.442619 #62401]  INFO -- : Data collection complete, preparing datasets
+I, [2025-02-19T14:18:40.444778 #62401]  INFO -- : Dataset preparation complete
+I, [2025-02-19T14:18:40.444795 #62401]  INFO -- : Preparing final datasets for The Machine
+I, [2025-02-19T14:18:40.445157 #62401]  INFO -- : Prepared time series dataset with 0 rows
+I, [2025-02-19T14:18:40.445427 #62401]  INFO -- : Prepared classification dataset with 0 rows
+I, [2025-02-19T14:18:40.445643 #62401]  INFO -- : Prepared anomaly detection dataset with 0 rows
+I, [2025-02-19T14:18:40.445730 #62401]  INFO -- : Prepared LSTM sequence dataset with 0 sequences
+I, [2025-02-19T14:18:40.445819 #62401]  INFO -- : Prepared GNN graph dataset with 0 nodes
+I, [2025-02-19T14:18:40.445840 #62401]  INFO -- : All final datasets prepared for The Machine
+I, [2025-02-19T14:19:22.375006 #62599]  INFO -- : Starting comprehensive threat intel collection
+I, [2025-02-19T14:19:33.962705 #62599]  INFO -- : Data collection complete, preparing datasets
+I, [2025-02-19T14:19:33.971019 #62599]  INFO -- : Dataset preparation complete
+I, [2025-02-19T14:19:33.971061 #62599]  INFO -- : Preparing final datasets for The Machine
+I, [2025-02-19T14:19:33.972191 #62599]  INFO -- : Prepared time series dataset with 0 rows
+I, [2025-02-19T14:19:33.973014 #62599]  INFO -- : Prepared classification dataset with 0 rows
+I, [2025-02-19T14:19:33.980414 #62599]  INFO -- : Prepared anomaly detection dataset with 0 rows
+I, [2025-02-19T14:19:33.980606 #62599]  INFO -- : Prepared LSTM sequence dataset with 0 sequences
+I, [2025-02-19T14:19:33.980833 #62599]  INFO -- : Prepared GNN graph dataset with 0 nodes
+I, [2025-02-19T14:19:33.980857 #62599]  INFO -- : All final datasets prepared for The Machine
+I, [2025-02-19T14:19:40.809550 #62734]  INFO -- : Starting comprehensive threat intel collection
+I, [2025-02-19T14:20:22.545424 #62734]  INFO -- : Data collection complete, preparing datasets
+I, [2025-02-19T14:20:22.558382 #62734]  INFO -- : Dataset preparation complete
+I, [2025-02-19T14:20:22.558406 #62734]  INFO -- : Preparing final datasets for The Machine
+I, [2025-02-19T14:20:22.562705 #62734]  INFO -- : Prepared time series dataset with 0 rows
+I, [2025-02-19T14:20:22.563227 #62734]  INFO -- : Prepared classification dataset with 0 rows
+I, [2025-02-19T14:20:22.563635 #62734]  INFO -- : Prepared anomaly detection dataset with 0 rows
+I, [2025-02-19T14:20:22.563760 #62734]  INFO -- : Prepared LSTM sequence dataset with 0 sequences
+I, [2025-02-19T14:20:22.563902 #62734]  INFO -- : Prepared GNN graph dataset with 0 nodes
+I, [2025-02-19T14:20:22.563919 #62734]  INFO -- : All final datasets prepared for The Machine
+I, [2025-02-19T14:21:40.420975 #63215]  INFO -- : Starting comprehensive threat intel collection
+I, [2025-02-19T14:22:17.724105 #63215]  INFO -- : Data collection complete, preparing datasets
+I, [2025-02-19T14:22:17.729280 #63215]  INFO -- : Dataset preparation complete
+I, [2025-02-19T14:22:17.729294 #63215]  INFO -- : Preparing final datasets for The Machine
+I, [2025-02-19T14:22:17.729937 #63215]  INFO -- : Prepared time series dataset with 0 rows
+I, [2025-02-19T14:22:17.730640 #63215]  INFO -- : Prepared classification dataset with 0 rows
+I, [2025-02-19T14:22:17.731169 #63215]  INFO -- : Prepared anomaly detection dataset with 0 rows
+I, [2025-02-19T14:22:17.731367 #63215]  INFO -- : Prepared LSTM sequence dataset with 0 sequences
+I, [2025-02-19T14:22:17.731563 #63215]  INFO -- : Prepared GNN graph dataset with 0 nodes
+I, [2025-02-19T14:22:17.731601 #63215]  INFO -- : All final datasets prepared for The Machine
+I, [2025-02-19T14:24:54.583851 #63688]  INFO -- : Starting comprehensive threat intel collection
+I, [2025-02-19T14:25:36.278049 #63688]  INFO -- : Data collection complete, preparing datasets
+I, [2025-02-19T14:25:36.294167 #63688]  INFO -- : Dataset preparation complete
+I, [2025-02-19T14:25:36.294179 #63688]  INFO -- : Preparing final datasets for The Machine
+I, [2025-02-19T14:25:36.294771 #63688]  INFO -- : Prepared time series dataset with 0 rows
+I, [2025-02-19T14:25:36.295211 #63688]  INFO -- : Prepared classification dataset with 0 rows
+I, [2025-02-19T14:25:36.295697 #63688]  INFO -- : Prepared anomaly detection dataset with 0 rows
+I, [2025-02-19T14:25:36.295912 #63688]  INFO -- : Prepared LSTM sequence dataset with 0 sequences
+I, [2025-02-19T14:25:36.301067 #63688]  INFO -- : Prepared GNN graph dataset with 0 nodes
+I, [2025-02-19T14:25:36.301110 #63688]  INFO -- : All final datasets prepared for The Machine
+I, [2025-02-19T14:31:36.972404 #64681]  INFO -- : Starting comprehensive threat intel collection
+I, [2025-02-19T14:31:43.728431 #64681]  INFO -- : Data collection complete, preparing datasets
+I, [2025-02-19T14:31:43.842632 #64681]  INFO -- : Dataset preparation complete
+I, [2025-02-19T14:31:43.842651 #64681]  INFO -- : Preparing final datasets for The Machine
+I, [2025-02-19T14:31:43.843274 #64681]  INFO -- : Prepared time series dataset with 0 rows
+I, [2025-02-19T14:31:43.843553 #64681]  INFO -- : Prepared classification dataset with 0 rows
+I, [2025-02-19T14:31:43.843755 #64681]  INFO -- : Prepared anomaly detection dataset with 0 rows
+I, [2025-02-19T14:31:43.843844 #64681]  INFO -- : Prepared LSTM sequence dataset with 0 sequences
+I, [2025-02-19T14:31:43.849509 #64681]  INFO -- : Prepared GNN graph dataset with 0 nodes
+I, [2025-02-19T14:31:43.849598 #64681]  INFO -- : All final datasets prepared for The Machine
+I, [2025-02-19T14:37:40.105084 #66028]  INFO -- : Starting comprehensive threat intel collection
+I, [2025-02-19T14:37:46.303164 #66028]  INFO -- : Data collection complete, preparing datasets
+I, [2025-02-19T14:37:46.432290 #66028]  INFO -- : Dataset preparation complete
+I, [2025-02-19T14:37:46.432323 #66028]  INFO -- : Preparing final datasets for The Machine
+I, [2025-02-19T14:37:46.433012 #66028]  INFO -- : Prepared time series dataset with 0 rows
+I, [2025-02-19T14:37:46.433304 #66028]  INFO -- : Prepared classification dataset with 0 rows
+I, [2025-02-19T14:37:46.433524 #66028]  INFO -- : Prepared anomaly detection dataset with 0 rows
+I, [2025-02-19T14:37:46.433620 #66028]  INFO -- : Prepared LSTM sequence dataset with 0 sequences
+I, [2025-02-19T14:37:46.439118 #66028]  INFO -- : Prepared GNN graph dataset with 0 nodes
+I, [2025-02-19T14:37:46.439220 #66028]  INFO -- : All final datasets prepared for The Machine

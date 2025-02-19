@@ -63,3 +63,18 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+gem "prophet-rb", "~> 0.5.3"
+
+gem "httparty", "~> 0.22.0"
+
+gem "rubocop-performance", "~> 1.24"
+gem "rubocop-rails", "~> 2.30"
+
+gem "distribution", "~> 0.8.0"
+
+gem "elasticsearch", "~> 8.17"
+
+gem "stringio", "~> 3.1"
+
+gem "prime", "~> 0.1.3"

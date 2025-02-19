@@ -1,0 +1,21 @@
+# Logfile created on 2025-02-19 12:51:14 +0200 by logger.rb/v1.6.6
+I, [2025-02-19T12:51:14.529986 #51095]  INFO -- : Collecting OTX pulses from the last 7 days
+I, [2025-02-19T12:51:15.490579 #51095]  INFO -- : Successfully collected 38 OTX pulses
+I, [2025-02-19T12:51:15.493609 #51095]  INFO -- : Collecting NVD vulnerabilities from the last 30 days
+E, [2025-02-19T12:51:16.933757 #51095] ERROR -- : Failed to collect NVD data: 503 - Service Unavailable
+I, [2025-02-19T12:51:16.934104 #51095]  INFO -- : Preparing time series features with hourly interval
+I, [2025-02-19T12:51:16.934313 #51095]  INFO -- : Generated 0 time series data points
+I, [2025-02-19T12:51:16.934360 #51095]  INFO -- : Preparing classification features
+I, [2025-02-19T12:51:16.934481 #51095]  INFO -- : Generated 0 classification feature vectors
+I, [2025-02-19T12:51:16.934531 #51095]  INFO -- : Preparing combined dataset for model training
+I, [2025-02-19T12:51:16.934761 #51095]  INFO -- : Preparing Prophet dataset
+I, [2025-02-19T12:51:16.935242 #51095]  INFO -- : Saved Prophet dataset with 0 rows
+I, [2025-02-19T12:51:16.935300 #51095]  INFO -- : Preparing XGBoost classification dataset
+I, [2025-02-19T12:51:16.935550 #51095]  INFO -- : Saved XGBoost dataset with 0 rows
+I, [2025-02-19T12:51:16.935598 #51095]  INFO -- : Preparing Isolation Forest dataset
+I, [2025-02-19T12:51:16.935911 #51095]  INFO -- : Saved Isolation Forest dataset with 0 rows
+I, [2025-02-19T12:51:16.935961 #51095]  INFO -- : Preparing LSTM sequence dataset
+I, [2025-02-19T12:51:16.936095 #51095]  INFO -- : Saved LSTM dataset with 0 sequences
+I, [2025-02-19T12:51:16.936136 #51095]  INFO -- : Preparing GNN dataset
+I, [2025-02-19T12:51:16.936291 #51095]  INFO -- : Saved GNN dataset with 0 IP nodes, 0 port nodes, 0 attack type nodes, 0 vulnerability nodes, and 0 edges
+I, [2025-02-19T12:51:16.936332 #51095]  INFO -- : Successfully prepared all datasets for model training

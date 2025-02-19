@@ -1,0 +1,2 @@
+class Analysis::Behavioral
+end

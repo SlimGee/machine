@@ -73,3 +73,15 @@ I, [2025-02-19T14:37:46.275553 #66028]  INFO -- : Successfully collected CTI fro
 I, [2025-02-19T14:37:46.303023 #66028]  INFO -- : Saved specialized CTI data from 4 sources
 I, [2025-02-19T14:37:46.321189 #66028]  INFO -- : Preparing specialized features for model enhancement
 I, [2025-02-19T14:37:46.432192 #66028]  INFO -- : Saved specialized features with 0 emerging threats and 15613 threat IPs
+I, [2025-02-19T14:42:30.587007 #5870]  INFO -- : Collecting specialized CTI feeds
+I, [2025-02-19T14:42:30.587025 #5870]  INFO -- : Fetching CTI feed from Emerging Threats
+I, [2025-02-19T14:42:32.173357 #5870]  INFO -- : Successfully collected CTI from Emerging Threats
+I, [2025-02-19T14:42:32.173447 #5870]  INFO -- : Fetching CTI feed from Abuse.ch
+E, [2025-02-19T14:42:33.550978 #5870] ERROR -- : Error collecting CTI from Abuse.ch: undefined method `undump' for an instance of Array
+I, [2025-02-19T14:42:33.551070 #5870]  INFO -- : Fetching CTI feed from CI Army
+I, [2025-02-19T14:42:36.478741 #5870]  INFO -- : Successfully collected CTI from CI Army
+I, [2025-02-19T14:42:36.478807 #5870]  INFO -- : Fetching CTI feed from AlienVault Reputation
+I, [2025-02-19T14:42:37.057346 #5870]  INFO -- : Successfully collected CTI from AlienVault Reputation
+I, [2025-02-19T14:42:37.079897 #5870]  INFO -- : Saved specialized CTI data from 3 sources
+I, [2025-02-19T14:42:37.093026 #5870]  INFO -- : Preparing specialized features for model enhancement
+I, [2025-02-19T14:42:37.179950 #5870]  INFO -- : Saved specialized features with 0 emerging threats and 15609 threat IPs

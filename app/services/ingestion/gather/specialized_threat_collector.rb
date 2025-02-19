@@ -147,10 +147,10 @@ class Ingestion::Gather::SpecializedThreatCollector
       next if fields.size < 2
 
       processed << {
-        ip: fields[0],
-        status: fields[1],
-        date: fields[2],
-        additional_info: fields[3..-1],
+        ip: fields[0].undump,
+        status: fields[1].undump,
+        date: fields[2].undump,
+        additional_info: fields[3..-1].undump,
       }
     end
 
@@ -330,7 +330,7 @@ class Ingestion::Gather::SpecializedThreatCollector
 
     words.select do |word|
       word.length > 3 &&
-        !['the', 'and', 'that', 'this', 'with', 'for', 'from'].include?(word) &&
+        ['the', 'and', 'that', 'this', 'with', 'for', 'from'].exclude?(word) &&
         (security_terms.include?(word) || word.match(/cve-\d{4}/))
     end
   end

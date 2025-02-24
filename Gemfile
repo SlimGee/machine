@@ -63,3 +63,7 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+gem "httpparty", "~> 0.2.0"
+
+gem "faraday", "~> 2.12"

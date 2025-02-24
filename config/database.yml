@@ -83,8 +83,8 @@ production:
   primary: &primary_production
     <<: *default
     database: machine_production
-    username: machine
-    password: <%= ENV["MACHINE_DATABASE_PASSWORD"] %>
+    user: <%= Rails.application.credentials.dig(:postgresql, :username) %>
+    password: <%= Rails.application.credentials.dig(:postgresql, :password) %>
   cache:
     <<: *primary_production
     database: machine_production_cache

@@ -10,6 +10,6 @@ class Ingestion::ThreatFeeds::AbuseipDb < Ingestion::ThreatFeeds::Collector
 
     response = conn.get
 
-    puts response.body.to_json
+    # puts response.body.to_json
   end
 end

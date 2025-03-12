@@ -1,0 +1,18 @@
+{
+  "feeds": [
+    {
+      "feed_name": "Open Phish",
+      "feed_type": "txt",
+      "indicator_type": "url",
+      "feed_url": "https://openphish.com/feed.txt",
+      "field_mapping": {
+        "source": [],
+        "destination": []
+      },
+      "check_interval": [
+        8
+      ]
+    }
+  ]
+}
+

@@ -1,0 +1,44 @@
+{
+  "feeds": [
+    {
+      "feed_name": "Binary Defense Banlist",
+      "feed_type": "txt",
+      "indicator_type": "ipaddress",
+      "feed_url": "https://www.binarydefense.com/banlist.txt",
+      "field_mapping": {
+        "source": [],
+        "destination": []
+      },
+      "check_interval": [
+        8
+      ]
+    },
+    {
+      "feed_name": "Emerging Threats Compromised IPs",
+      "feed_type": "txt",
+      "indicator_type": "ipaddress",
+      "feed_url": "https://rules.emergingthreats.net/blockrules/compromised-ips.txt",
+      "field_mapping": {
+        "source": [],
+        "destination": []
+      },
+      "check_interval": [
+        8
+      ]
+    },
+    {
+      "feed_name": "Dan.me.uk Tor List",
+      "feed_type": "txt",
+      "indicator_type": "ipaddress",
+      "feed_url": "https://www.dan.me.uk/torlist/",
+      "field_mapping": {
+        "source": [],
+        "destination": []
+      },
+      "check_interval": [
+        8
+      ]
+    }
+  ]
+}
+

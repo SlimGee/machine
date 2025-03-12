@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  mitre_id: MyText
+  name: MyString
+  description: MyText
+  tactic: one
+
+two:
+  mitre_id: MyText
+  name: MyString
+  description: MyText
+  tactic: two

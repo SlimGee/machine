@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  first_event: one
+  second_event: one
+  confidence: 1.5
+  relationship_type: MyText
+  discovered_at: 2025-03-12 07:07:29
+
+two:
+  first_event: two
+  second_event: two
+  confidence: 1.5
+  relationship_type: MyText
+  discovered_at: 2025-03-12 07:07:29

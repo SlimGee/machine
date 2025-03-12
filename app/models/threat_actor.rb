@@ -1,0 +1,2 @@
+class ThreatActor < ApplicationRecord
+end

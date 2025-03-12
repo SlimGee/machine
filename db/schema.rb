@@ -1,0 +1,168 @@
+# This file is auto-generated from the current state of the database. Instead
+# of editing this file, please use the migrations feature of Active Record to
+# incrementally modify your database, and then regenerate this schema definition.
+#
+# This file is the source Rails uses to define your schema when running `bin/rails
+# db:schema:load`. When creating a new database, `bin/rails db:schema:load` tends to
+# be faster and is potentially less error prone than running all of your
+# migrations from scratch. Old migrations may fail to apply correctly if those
+# migrations use external dependencies or application code.
+#
+# It's strongly recommended that you check this file into your version control system.
+
+ActiveRecord::Schema[8.0].define(version: 2025_03_12_051959) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_catalog.plpgsql"
+
+  create_table "assets", force: :cascade do |t|
+    t.bigint "target_id", null: false
+    t.text "asset_type"
+    t.string "identifier"
+    t.integer "criticality"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["target_id"], name: "index_assets_on_target_id"
+  end
+
+  create_table "correlations", force: :cascade do |t|
+    t.bigint "first_event_id", null: false
+    t.bigint "second_event_id", null: false
+    t.float "confidence"
+    t.text "relationship_type"
+    t.datetime "discovered_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["first_event_id"], name: "index_correlations_on_first_event_id"
+    t.index ["second_event_id"], name: "index_correlations_on_second_event_id"
+  end
+
+  create_table "event_indicators", force: :cascade do |t|
+    t.bigint "event_id", null: false
+    t.bigint "indicator_id", null: false
+    t.text "context"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_event_indicators_on_event_id"
+    t.index ["indicator_id"], name: "index_event_indicators_on_indicator_id"
+  end
+
+  create_table "event_threat_actors", force: :cascade do |t|
+    t.bigint "event_id", null: false
+    t.bigint "threat_actor_id", null: false
+    t.float "confidence"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_event_threat_actors_on_event_id"
+    t.index ["threat_actor_id"], name: "index_event_threat_actors_on_threat_actor_id"
+  end
+
+  create_table "events", force: :cascade do |t|
+    t.string "event_type"
+    t.datetime "timestamp", precision: nil
+    t.text "description"
+    t.string "severity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "tactic_id", null: false
+    t.index ["tactic_id"], name: "index_events_on_tactic_id"
+  end
+
+  create_table "indicators", force: :cascade do |t|
+    t.string "indicator_type"
+    t.text "value"
+    t.integer "confidence"
+    t.datetime "first_seen"
+    t.datetime "last_seen"
+    t.bigint "source_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["source_id"], name: "index_indicators_on_source_id"
+  end
+
+  create_table "predictions", force: :cascade do |t|
+    t.bigint "threat_actor_id", null: false
+    t.bigint "target_id", null: false
+    t.bigint "technique_id", null: false
+    t.float "confidence"
+    t.datetime "estimated_timeframe"
+    t.datetime "predictioni_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["target_id"], name: "index_predictions_on_target_id"
+    t.index ["technique_id"], name: "index_predictions_on_technique_id"
+    t.index ["threat_actor_id"], name: "index_predictions_on_threat_actor_id"
+  end
+
+  create_table "sources", force: :cascade do |t|
+    t.string "name"
+    t.string "source_type"
+    t.text "url"
+    t.integer "reliability"
+    t.datetime "last_update"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "tactics", force: :cascade do |t|
+    t.text "mitre_id"
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "targets", force: :cascade do |t|
+    t.string "name"
+    t.string "industry"
+    t.float "risk_score"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "techniques", force: :cascade do |t|
+    t.text "mitre_id"
+    t.string "name"
+    t.text "description"
+    t.bigint "tactic_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["mitre_id"], name: "index_techniques_on_mitre_id", unique: true
+    t.index ["tactic_id"], name: "index_techniques_on_tactic_id"
+  end
+
+  create_table "threat_actors", force: :cascade do |t|
+    t.text "name"
+    t.text "description"
+    t.datetime "first_seen"
+    t.datetime "last_seen"
+    t.integer "confidence"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "vulnerabilities", force: :cascade do |t|
+    t.bigint "asset_id", null: false
+    t.text "cve_id"
+    t.text "description"
+    t.float "cvss_score"
+    t.boolean "exploitable", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["asset_id"], name: "index_vulnerabilities_on_asset_id"
+  end
+
+  add_foreign_key "assets", "targets"
+  add_foreign_key "correlations", "events", column: "first_event_id"
+  add_foreign_key "correlations", "events", column: "second_event_id"
+  add_foreign_key "event_indicators", "events"
+  add_foreign_key "event_indicators", "indicators"
+  add_foreign_key "event_threat_actors", "events"
+  add_foreign_key "event_threat_actors", "threat_actors"
+  add_foreign_key "events", "tactics"
+  add_foreign_key "indicators", "sources"
+  add_foreign_key "predictions", "targets"
+  add_foreign_key "predictions", "techniques"
+  add_foreign_key "predictions", "threat_actors"
+  add_foreign_key "techniques", "tactics"
+  add_foreign_key "vulnerabilities", "assets"
+end

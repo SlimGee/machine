@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  indicator_type: MyString
+  value: MyText
+  confidence: 1
+  first_seen: 2025-03-12 07:04:23
+  last_seen: 2025-03-12 07:04:23
+  source: one
+
+two:
+  indicator_type: MyString
+  value: MyText
+  confidence: 1
+  first_seen: 2025-03-12 07:04:23
+  last_seen: 2025-03-12 07:04:23
+  source: two

@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  threat_actor: one
+  target: one
+  technique: one
+  confidence: 1.5
+  estimated_timeframe: 2025-03-12 07:19:59
+  predictioni_date: 2025-03-12 07:19:59
+
+two:
+  threat_actor: two
+  target: two
+  technique: two
+  confidence: 1.5
+  estimated_timeframe: 2025-03-12 07:19:59
+  predictioni_date: 2025-03-12 07:19:59

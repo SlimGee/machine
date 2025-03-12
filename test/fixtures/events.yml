@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  event_type: MyString
+  timestamp: 2025-03-12 07:04:57
+  description: MyText
+  severity: MyString
+
+two:
+  event_type: MyString
+  timestamp: 2025-03-12 07:04:57
+  description: MyText
+  severity: MyString

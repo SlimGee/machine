@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyText
+  description: MyText
+  first_seen: 2025-03-12 07:14:21
+  last_seen: 2025-03-12 07:14:21
+  confidence: 1
+
+two:
+  name: MyText
+  description: MyText
+  first_seen: 2025-03-12 07:14:21
+  last_seen: 2025-03-12 07:14:21
+  confidence: 1

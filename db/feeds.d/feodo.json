@@ -1,0 +1,18 @@
+{
+  "feeds": [
+    {
+      "feed_name": "feodo ip blocklist",
+      "feed_type": "txt",
+      "indicator_type": "ipaddress",
+      "feed_url": "https://feodotracker.abuse.ch/downloads/ipblocklist_aggressive.txt",
+      "field_mapping": {
+        "source": [],
+        "destination": []
+      },
+      "check_interval": [
+        8
+      ]
+    }
+  ]
+}
+

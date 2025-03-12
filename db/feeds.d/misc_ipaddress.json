@@ -1,0 +1,18 @@
+{
+  "feeds": [
+    {
+      "feed_name": "CI army badguys",
+      "feed_type": "txt",
+      "indicator_type": "ipaddress",
+      "feed_url": "http://www.ciarmy.com/list/ci-badguys.txt",
+      "field_mapping": {
+        "source": [],
+        "destination": []
+      },
+      "check_interval": [
+        8
+      ]
+    }
+  ]
+}
+

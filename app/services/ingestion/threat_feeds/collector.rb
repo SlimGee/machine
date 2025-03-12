@@ -1,6 +1,7 @@
 class Ingestion::ThreatFeeds::Collector
   SOURCES = [
-    Ingestion::ThreatFeeds::AbuseipDb
+    # Ingestion::ThreatFeeds::AbuseipDb,
+    Ingestion::ThreatFeeds::Otx
   ].freeze
 
   def self.collect

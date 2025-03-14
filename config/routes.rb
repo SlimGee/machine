@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  namespace :app do
+    root to: "home#index"
+  end
+  root to: "app/home#index"
   devise_for :users
 
   get "pages/:page" => "pages#show", as: :pages
@@ -32,9 +36,6 @@ Rails.application.routes.draw do
     mount Railsui::Engine, at: "/railsui"
   end
 
-  # Inherits from Railsui::PageController#index
-  # To override, add your own page#index view or change to a new root
-  root action: :index, controller: "railsui/default"
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

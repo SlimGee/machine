@@ -1,4 +1,4 @@
-module Prediction
+module Predict
   class RandomForest < ::Base
     def predict(model, features)
       # Preprocess features

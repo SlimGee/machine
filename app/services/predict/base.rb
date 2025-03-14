@@ -1,4 +1,4 @@
-module Prediction
+module Predict
   class Base
     def predict(model, features)
       raise NotImplementedError, "#{self.class} must implement #predict"

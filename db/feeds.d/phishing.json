@@ -4,7 +4,7 @@
       "feed_name": "Open Phish",
       "feed_type": "txt",
       "indicator_type": "url",
-      "feed_url": "https://openphish.com/feed.txt",
+      "feed_url": "https://raw.githubusercontent.com/openphish/public_feed/refs/heads/main/feed.txt",
       "field_mapping": {
         "source": [],
         "destination": []
@@ -15,4 +15,3 @@
     }
   ]
 }
-

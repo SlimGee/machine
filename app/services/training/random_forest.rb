@@ -1,5 +1,5 @@
 module Training
-  class RandomForest < ::Base
+  class RandomForest < Training::Base
     def train(training_data)
       # Preprocess training data
       processed_data = preprocess_training_data(training_data)

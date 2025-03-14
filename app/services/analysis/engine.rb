@@ -1,6 +1,6 @@
 class Analysis::Engine
   def self.analyze_new_indicators
-    new_indicators = Indicator.where("created_at > ?", 7.day.ago).where(indicator_type: :url)
+    new_indicators = Indicator.where("created_at > ?", 7.day.ago)
 
     # Process each new indicator
     new_indicators.find_each do |indicator|

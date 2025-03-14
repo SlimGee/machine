@@ -5,6 +5,6 @@ class Ml::ModelExecution < ApplicationRecord
   validates :executed_at, presence: true
   validates :input_features, :result, presence: true
 
-  serialize :input_features, JSON
-  serialize :result, JSON
+  serialize :input_features, coder: JSON
+  serialize :result, coder: JSON
 end

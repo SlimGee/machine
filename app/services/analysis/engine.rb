@@ -38,7 +38,8 @@ class Analysis::Engine
       event_type: determine_event_type(matches),
       timestamp: indicator.first_seen || Time.current,
       description: "Event detected based on indicator #{indicator.value} [#{indicator.indicator_type}]",
-      severity: determine_severity(matches)
+      severity: determine_severity(matches),
+      tactic_id: matches.first[:tactic_id]
     )
 
     # Associate indicator with event

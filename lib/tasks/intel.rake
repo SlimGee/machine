@@ -17,9 +17,13 @@ namespace :intel do
     end
 
     response = conn.get
-    tactics = ActiveSupport::JSON.decode(response.body)["objects"].select { |o| o["type"] == "x-mitre-tactic" }
+    tactics = ActiveSupport::JSON.decode(response.body)["objects"]
     tactics.each do |tactic|
-      mitre_id = tactic["external_references"].find { |ref| ref["source_name"] == "mitre-attack" }["external_id"]
+      begin
+        mitre_id = tactic["external_references"].find { |ref| ref["source_name"] == "mitre-attack" }["external_id"]
+      rescue
+        next
+      end
 
       existing_tactic = Tactic.find_by(mitre_id: mitre_id)
 

@@ -90,24 +90,26 @@ class Analysis::PatternMatcher
 
       # Check for DGA (Domain Generation Algorithm) patterns
       if domain.length > 20 && domain.match?(/[0-9a-f]{10,}/)
+        tactic = Tactic.find_by(mitre_id: "T1568.002")
         matches << {
           pattern_type: "dga_domain",
           confidence: 0.7,
           severity_weight: 0.7,
           event_type: "dns_request",
-          mitre_tactic_id: "TA0011" # Command and Control
+          tactic_id: tactic.id
         }
       end
 
       # Check for typosquatting domains
       typosquat_target = check_typosquatting(domain)
       if typosquat_target
+        tactic = Tactic.find_by(mitre_id: "T1583.001")
         matches << {
           pattern_type: "typosquatting",
           confidence: 0.8,
           severity_weight: 0.7,
           event_type: "phishing_preparation",
-          mitre_tactic_id: "TA0001", # Initial Access
+          tactic_id: tactic.id,
           context: { target_domain: typosquat_target }
         }
       end
@@ -148,12 +150,14 @@ class Analysis::PatternMatcher
         lookalike_target = check_typosquatting(domain)
 
         if lookalike_target
+
+          tactic = Tactic.find_by(mitre_id: "T1566")
           matches << {
             pattern_type: "phishing_url",
             confidence: 0.8,
             severity_weight: 0.8,
             event_type: "phishing",
-            mitre_tactic_id: "TA0001", # Initial Access
+            tactic_id: tactic.id,
             context: { target_domain: lookalike_target }
           }
         end

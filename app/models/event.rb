@@ -10,6 +10,6 @@ class Event < ApplicationRecord
   has_many :event_threat_actors
   has_many :threat_actors, through: :event_threat_actors
 
-  validates :type, :timestamp, presence: true
+  validates :event_type, :timestamp, presence: true
   validates :severity, inclusion: { in: %w[low medium high critical] }, allow_nil: true
 end

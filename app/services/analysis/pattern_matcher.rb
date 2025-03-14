@@ -243,6 +243,8 @@ class Analysis::PatternMatcher
 
       high_value_domains.each do |target_domain|
         # Simple Levenshtein distance check
+        return nil if target_domain.nil?
+
         distance = levenshtein_distance(domain, target_domain)
 
         # If domains are similar but not identical
@@ -257,42 +259,28 @@ class Analysis::PatternMatcher
     def self.extract_domain_from_url(url)
       # Simple URL parsing to extract domain
       begin
+        unless URI.scheme_list.keys.map(&:downcase).any? { |scheme| url.downcase.start_with?(scheme) }
+          url = "http://#{url}"
+        end
+
         uri = URI.parse(url)
+
         host = uri.host
 
         # Remove www prefix if present
         host = host.sub(/^www\./, "") if host
 
         host
-      rescue URI::InvalidURIError
-        # If can't parse as URI, try simple regex
-        url.match(/https?:\/\/(?:www\.)?([^\/]+)/)&.captures&.first
+        rescue URI::InvalidURIError
+          # If can't parse as URI, try simple regex
+          url.match(/https?:\/\/(?:www\.)?([^\/]+)/)&.captures&.first
       end
     end
 
     def self.levenshtein_distance(s, t)
-      # Calculate Levenshtein distance between two strings
-      m = s.length
-      n = t.length
-
-      return m if n == 0
-      return n if m == 0
-
-      d = Array.new(m + 1) { Array.new(n + 1) }
-
-      (0..m).each { |i| d[i][0] = i }
-      (0..n).each { |j| d[0][j] = j }
-
-      (1..n).each do |j|
-        (1..m).each do |i|
-          d[i][j] = if s[i-1] == t[j-1]
-            d[i-1][j-1]
-          else
-            [ d[i-1][j] + 1, d[i][j-1] + 1, d[i-1][j-1] + 1 ].min
-          end
-        end
-      end
-
-      d[m][n]
+      return 0 if s.blank?
+      puts "s: #{s}"
+      puts "t: #{t}"
+      Text::Levenshtein.distance(s, t)
     end
 end

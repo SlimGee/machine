@@ -1,14 +1,15 @@
 class Analysis::Engine
   def self.analyze_new_indicators
-    new_indicators = Indicator.where("created_at > ?", 7.day.ago)
+    new_indicators = Indicator.where("created_at > ?", 7.day.ago).where(indicator_type: :url)
 
     # Process each new indicator
     new_indicators.find_each do |indicator|
       # Check for pattern matches
       matches = find_pattern_matches(indicator)
-
+      puts matches.inspect
       # Correlate with existing events
       correlations = correlate_with_events(indicator)
+      puts correlations.inspect
 
       # Create new events if necessary
       create_events_from_indicator(indicator, matches)

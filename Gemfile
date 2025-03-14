@@ -79,3 +79,5 @@ gem "hotwire-spark", "~> 0.1.13"
 gem "devise", "~> 4.9"
 
 gem "name_of_person", "~> 1.1"
+
+gem "text", "~> 1.3"

@@ -1,4 +1,4 @@
-module Prediction
+module Predict
   class Factory
     def self.for(model_type)
       case model_type.to_s

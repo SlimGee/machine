@@ -2,7 +2,7 @@ class Ml::PredictionModel < ApplicationRecord
   has_many :model_features
   has_many :model_executions
 
-  enum model_type: {
+  enum :model_type, {
     random_forest: "random_forest",
     neural_network: "neural_network",
     gradient_boosting: "gradient_boosting",
@@ -10,7 +10,7 @@ class Ml::PredictionModel < ApplicationRecord
     ensemble: "ensemble"
   }
 
-  enum status: {
+  enum :status, {
     training: "training",
     active: "active",
     inactive: "inactive",

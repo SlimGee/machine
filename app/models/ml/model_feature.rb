@@ -4,7 +4,7 @@ class Ml::ModelFeature < ApplicationRecord
   validates :name, :feature_type, presence: true
   validates :name, uniqueness: { scope: :prediction_model_id }
 
-  enum feature_type: {
+  enum :feature_type, {
     numeric: "numeric",
     categorical: "categorical",
     boolean: "boolean",

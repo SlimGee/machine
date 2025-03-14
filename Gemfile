@@ -69,3 +69,5 @@ gem "httpparty", "~> 0.2.0"
 gem "faraday", "~> 2.12"
 
 gem "tailwindcss", "~> 0.1.1"
+
+gem "tailwindcss-ruby", "~> 4.0"

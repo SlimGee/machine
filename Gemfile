@@ -40,7 +40,7 @@ gem "kamal", require: false
 gem "thruster", require: false
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
-# gem "image_processing", "~> 1.2"
+gem "image_processing", "~> 1.2"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -71,3 +71,11 @@ gem "faraday", "~> 2.12"
 gem "tailwindcss", "~> 0.1.1"
 
 gem "tailwindcss-ruby", "~> 4.0"
+
+gem "railsui", "~> 3.1"
+
+gem "hotwire-spark", "~> 0.1.13"
+
+gem "devise", "~> 4.9"
+
+gem "name_of_person", "~> 1.1"

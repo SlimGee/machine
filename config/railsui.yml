@@ -1,0 +1,29 @@
+--- !ruby/object:Railsui::Configuration
+application_name: Rails UI
+support_email: support@example.com
+theme: shepherd
+pages:
+- about
+- pricing
+- dashboard
+- properties
+- inbox
+- calendar
+- insights
+- bookings
+- new_booking
+- booking
+- edit_booking
+- help_center
+- changelog
+- api
+- privacy_policy
+- terms
+- contact
+- account_payment_methods
+- account_payouts
+- account_notifications
+- account_preferences
+body_classes: h-full antialiased text-zinc-800 leading-normal selection:bg-primary-100
+  selection:text-primary-700 dark:bg-zinc-900 bg-white dark:text-zinc-50 dark:selection:bg-zinc-500/40
+  dark:selection:text-zinc-200

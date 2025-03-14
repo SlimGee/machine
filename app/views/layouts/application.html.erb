@@ -19,11 +19,20 @@
 
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
-    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+    <%= javascript_include_tag "application",
+    "data-turbo-track": "reload",
+    type: "module" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+
+    <%= railsui_head %>
   </head>
 
-  <body>
+  <body
+    class="<%= railsui_body_classes %>"
+    data-controller="dark-mode search pricing"
+  >
     <%= yield %>
+
+    <%= railsui_launcher if Rails.env.development? %>
   </body>
 </html>

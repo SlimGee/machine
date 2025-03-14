@@ -1,5 +1,5 @@
 module Predict
-  class RandomForest < ::Base
+  class RandomForest < Predict::Base
     def predict(model, features)
       # Preprocess features
       processed_features = preprocess_features(features)

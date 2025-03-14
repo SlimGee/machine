@@ -22,7 +22,7 @@ class Analysis::Engine
   end
 
   def self.find_pattern_matches(indicator)
-    PatternMatcher.match(indicator)
+    Analysis::PatternMatcher.match(indicator)
   end
 
   def self.correlate_with_events(indicator)

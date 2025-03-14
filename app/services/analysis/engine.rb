@@ -1,6 +1,6 @@
 class Analysis::Engine
   def self.analyze_new_indicators
-    new_indicators = Indicator.where("created_at > ?", 1.day.ago)
+    new_indicators = Indicator.where("created_at > ?", 7.day.ago)
 
     # Process each new indicator
     new_indicators.find_each do |indicator|
@@ -26,7 +26,7 @@ class Analysis::Engine
   end
 
   def self.correlate_with_events(indicator)
-    EventCorrelator.correlate(indicator)
+    Analysis::EventCorrelator.correlate(indicator)
   end
 
   def self.create_events_from_indicator(indicator, matches)
@@ -204,10 +204,7 @@ private
     else
       # For other indicator types, use a broader approach
       # For example, check if any targets in the same industry as previously affected targets
-      affected_target_industries = Target.joins(assets: :events)
-                                        .joins("INNER JOIN event_indicators ON events.id = event_indicators.event_id")
-                                        .where(event_indicators: { indicator_id: indicator.id })
-                                        .pluck(:industry).uniq
+      affected_target_industries = []
 
       targets = Target.where(industry: affected_target_industries)
     end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_14_082753) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_14_083122) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -101,7 +101,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_14_082753) do
     t.string "severity"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "tactic_id", null: false
+    t.bigint "tactic_id"
     t.index ["tactic_id"], name: "index_events_on_tactic_id"
   end
 

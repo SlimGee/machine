@@ -1,0 +1,121 @@
+<div
+  class="
+    overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-gray-800
+    dark:bg-white/[0.03]
+  "
+>
+  <div class="max-w-full overflow-x-auto">
+    <table class="min-w-full">
+      <!-- table header start -->
+      <thead>
+        <tr class="border-b border-gray-100 dark:border-gray-800">
+          <th class="px-5 py-3 sm:px-6">
+            <div class="flex items-center">
+              <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">
+                Indicator type
+              </p>
+            </div>
+          </th>
+          <th class="px-5 py-3 sm:px-6">
+            <div class="flex items-center">
+              <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">
+                Value
+              </p>
+            </div>
+          </th>
+          <th class="px-5 py-3 sm:px-6">
+            <div class="flex items-center">
+              <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">
+                Confidence
+              </p>
+            </div>
+          </th>
+          <th class="px-5 py-3 sm:px-6">
+            <div class="flex items-center">
+              <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">
+                First seen
+              </p>
+            </div>
+          </th>
+          <th class="px-5 py-3 sm:px-6">
+            <div class="flex items-center">
+              <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">
+                Last seen
+              </p>
+            </div>
+          </th>
+
+          <th class="px-5 py-3 sm:px-6">
+            <div class="flex items-center">
+              <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">
+                Source
+              </p>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <!-- table header end --> <!-- table body start -->
+      <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
+        <% indicators.each do |indicator| %>
+
+          <tr>
+            <td class="px-5 py-4 sm:px-6">
+              <div class="flex items-center">
+                <div class="flex items-center gap-3">
+                  <div>
+                    <span class="block font-medium text-gray-800 text-theme-sm dark:text-white/90">
+                      <%= indicator.indicator_type %>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td class="px-5 py-4 sm:px-6">
+              <div class="flex items-center">
+                <p class="text-gray-500 text-theme-sm dark:text-gray-400">
+                  <%= indicator.value %>
+                </p>
+              </div>
+            </td>
+
+            <td class="px-5 py-4 sm:px-6">
+              <div class="flex items-center">
+
+                <p
+                  class="
+                    rounded-full bg-success-50 px-2 py-0.5 text-theme-xs font-medium
+                    text-success-700 dark:bg-success-500/15 dark:text-success-500
+                  "
+                >
+                  <%= indicator.confidence %>
+                </p>
+              </div>
+            </td>
+            <td class="px-5 py-4 sm:px-6">
+              <div class="flex items-center">
+                <p class="text-gray-500 text-theme-sm dark:text-gray-400">
+                  <%= indicator.first_seen.strftime("%d %b %Y at %H:%M") %>
+                </p>
+              </div>
+            </td>
+            <td class="px-5 py-4 sm:px-6">
+              <div class="flex items-center">
+                <p class="text-gray-500 text-theme-sm dark:text-gray-400">
+                  <%= indicator.last_seen.strftime("%d %b %Y at %H:%M") %>
+                </p>
+              </div>
+            </td>
+
+            <td class="px-5 py-4 sm:px-6">
+              <div class="flex items-center">
+                <p class="text-gray-500 text-theme-sm dark:text-gray-400">
+                  <%= indicator.source.name %>
+                </p>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

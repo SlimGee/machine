@@ -1,0 +1,47 @@
+<%= form_with(model: [:app, indicator]) do |form| %>
+  <% if indicator.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(indicator.errors.count, "error") %> prohibited this indicator from being saved:</h2>
+
+      <ul>
+        <% indicator.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :indicator_type, style: "display: block" %>
+    <%= form.text_field :indicator_type %>
+  </div>
+
+  <div>
+    <%= form.label :value, style: "display: block" %>
+    <%= form.textarea :value %>
+  </div>
+
+  <div>
+    <%= form.label :confidence, style: "display: block" %>
+    <%= form.number_field :confidence %>
+  </div>
+
+  <div>
+    <%= form.label :first_seen, style: "display: block" %>
+    <%= form.datetime_field :first_seen %>
+  </div>
+
+  <div>
+    <%= form.label :last_seen, style: "display: block" %>
+    <%= form.datetime_field :last_seen %>
+  </div>
+
+  <div>
+    <%= form.label :source_id, style: "display: block" %>
+    <%= form.text_field :source_id %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

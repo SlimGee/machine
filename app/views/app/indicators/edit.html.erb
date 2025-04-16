@@ -1,0 +1,12 @@
+<% content_for :title, "Editing indicator" %>
+
+<h1>Editing indicator</h1>
+
+<%= render "form", indicator: @indicator %>
+
+<br>
+
+<div>
+  <%= link_to "Show this indicator", [:app, @indicator] %> |
+  <%= link_to "Back to indicators", app_indicators_path %>
+</div>

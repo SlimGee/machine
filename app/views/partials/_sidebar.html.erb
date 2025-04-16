@@ -42,6 +42,13 @@
           </li>
 
           <li>
+            <%= link_to app_indicators_path, class: class_names('menu-item group', 'active': current_page?(app_indicators_path))  do %>
+              <%= icon "shield-alert", class: "w-5 h-5 text-primary-500" %>
+              Indicators of Compromise
+            <% end %>
+          </li>
+
+          <li>
             <%= link_to app_events_path, class: class_names('menu-item group', 'active': current_page?(app_events_path))  do %>
               <%= icon "workflow", class: "w-5 h-5 text-primary-500" %>
               Security Events

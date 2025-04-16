@@ -1,0 +1,26 @@
+<p style="color: green"><%= notice %></p>
+
+<% set_meta_tags title: "Indicators of Compromise" %>
+
+<div class="space-y-5 sm:space-y-6">
+  <div
+    class="
+      rounded-2xl border border-gray-200 bg-white dark:border-gray-800
+      dark:bg-white/[0.03]
+    "
+  >
+    <div class="px-5 flex justify-between items-center py-4 sm:px-6 sm:py-5">
+      <h3 class="text-base font-medium text-gray-800 dark:text-white/90">
+        IoCs
+      </h3>
+    </div>
+  </div>
+
+  <div class="">
+    <!-- ====== Table Six Start -->
+    <%= render "table", indicators: @indicators %>
+    <div class="mt-5">
+      <%= paginate @indicators %>
+    </div>
+  </div>
+</div>

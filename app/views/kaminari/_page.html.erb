@@ -1,0 +1,24 @@
+<%# Link showing page number
+  - available local variables
+    page:          a page object for "this" page
+    url:           url to this page
+    current_page:  a page object for the currently displayed page
+    total_pages:   total number of pages
+    per_page:      number of items to fetch per page
+    remote:        data-remote -%>
+  <span
+    class="
+      relative inline-flex dark:text-slate-200 items-center text-sm font-semibold
+      ring-1 ring-inset dark:ring-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700
+      focus:z-20 focus:outline-offset-0 <%= ' z-10 bg-primary-600 text-white focus-visible:outline
+          focus-visible:outline-offset-2
+          focus-visible:outline-primary-600 px-4 py-2' if page.current? %>
+      <%= 'rounded-l-md' if current_page.first? && page.current? %> <%= 'rounded-r-md' if current_page.last? && page.current? %>
+    "
+  >
+    <%= link_to_unless page.current?,
+    page,
+    url,
+    { remote: remote, rel: page.rel, class: "px-4 py-2" } %>
+
+  </span>

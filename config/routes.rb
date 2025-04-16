@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   namespace :app do
+    resources :sources
     root to: "home#index"
   end
   root to: "app/home#index"

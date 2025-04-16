@@ -83,3 +83,5 @@ gem "name_of_person", "~> 1.1"
 gem "text", "~> 1.3"
 
 gem "rails_icons", "~> 1.2"
+
+gem "kaminari", "~> 1.2"

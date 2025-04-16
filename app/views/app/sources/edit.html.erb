@@ -1,0 +1,22 @@
+<% content_for :title, "Editing source" %>
+
+<h1 class="h2">Editing source</h1>
+
+<div
+  class="
+    rounded-2xl mt-12 border border-gray-200 bg-white dark:border-gray-800
+    dark:bg-white/[0.03]
+  "
+>
+  <div class="space-y-6 p-5 sm:p-6 dark:border-gray-800">
+    <%= render "form", source: @source %>
+  </div>
+</div>
+
+<br>
+
+<div>
+  <%= link_to "Show this source", [:app, @source] %>
+  |
+  <%= link_to "Back to sources", app_sources_path %>
+</div>

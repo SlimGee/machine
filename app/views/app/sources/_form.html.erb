@@ -1,0 +1,41 @@
+<%= form_with(model: [:app, source]) do |form| %>
+  <% if source.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(source.errors.count, "error") %>
+        prohibited this source from being saved:</h2>
+
+      <ul>
+        <% source.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :name, class: "form-label" %>
+    <%= form.text_field :name, class: "form-input" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :source_type, class: "form-label" %>
+    <%= form.select :source_type,
+                options_for_select(Source::SOURCE_TYPES),
+                {},
+                class: "form-select" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :url, class: "form-label" %>
+    <%= form.text_field :url, class: "form-input" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :reliability, class: "form-label" %>
+    <%= form.number_field :reliability, class: "form-input" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.submit class: "btn btn-primary" %>
+  </div>
+<% end %>

@@ -1,0 +1,21 @@
+<% content_for :title, "New source" %>
+
+<h1 class="h2">New source</h1>
+
+<div
+  class="
+    rounded-2xl mt-12 border border-gray-200 bg-white dark:border-gray-800
+    dark:bg-white/[0.03]
+  "
+>
+  <div class="px-5 py-4 sm:px-6 sm:py-5">
+    <div class="space-y-6 p-5 sm:p-6">
+      <%= render "form", source: @source %>
+    </div>
+  </div>
+
+  <br>
+
+  <div>
+    <%= link_to "Back to sources", app_sources_path %>
+  </div>

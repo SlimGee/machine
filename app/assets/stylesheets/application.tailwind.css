@@ -24,6 +24,10 @@
   color utility to any element that depends on these defaults.
 */
 
+@utility active {
+  @apply dark:bg-slate-800 bg-gray-600;
+}
+
 @utility menu-item {
   @apply relative flex items-center gap-3 px-3 py-2 font-medium rounded-lg text-theme-sm;
 }

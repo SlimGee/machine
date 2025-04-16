@@ -1,23 +1,17 @@
 class Analysis::Engine
   def self.analyze_new_indicators
-    new_indicators = Indicator.where("created_at > ?", 7.day.ago)
-
+    new_indicators = Indicator.where("created_at > ?", 7.day.ago).where(indicator_type: "ipaddress").last(5)
     # Process each new indicator
-    new_indicators.find_each do |indicator|
+    new_indicators.each do |indicator|
       # Check for pattern matches
       matches = find_pattern_matches(indicator)
-      puts matches.inspect
-      # Correlate with existing events
-      correlations = correlate_with_events(indicator)
-      puts correlations.inspect
 
-      # Create new events if necessary
+      correlations = correlate_with_events(indicator)
+
       create_events_from_indicator(indicator, matches)
 
-      # Update threat actor profiles
       update_threat_actor_profiles(indicator, matches, correlations)
 
-      # Run predictions for potentially affected targets
       run_predictions_for_targets(indicator)
     end
   end
@@ -39,7 +33,7 @@ class Analysis::Engine
       timestamp: indicator.first_seen || Time.current,
       description: "Event detected based on indicator #{indicator.value} [#{indicator.indicator_type}]",
       severity: determine_severity(matches),
-      tactic_id: matches.first[:tactic_id]
+      tactic_id: identify_tactic(matches)
     )
 
     # Associate indicator with event

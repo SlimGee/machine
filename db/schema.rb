@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_14_083122) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_16_195703) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -115,6 +115,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_14_083122) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["source_id"], name: "index_indicators_on_source_id"
+  end
+
+  create_table "malicious_domains", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_malicious_domains_on_name", unique: true
   end
 
   create_table "predictions", force: :cascade do |t|

@@ -1,0 +1,2 @@
+class MaliciousDomain < ApplicationRecord
+end

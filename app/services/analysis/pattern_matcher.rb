@@ -5,7 +5,7 @@ class Analysis::PatternMatcher
 
     # Different matching strategies based on indicator type
     case indicator.indicator_type
-    when "ip_address"
+    when "ipaddress"
       matches.concat(match_ip_address(indicator))
     when "domain"
       matches.concat(match_domain(indicator))
@@ -18,7 +18,6 @@ class Analysis::PatternMatcher
     end
 
     # Add generic pattern matches
-    matches.concat(match_generic_patterns(indicator))
 
     matches
   end
@@ -29,44 +28,112 @@ class Analysis::PatternMatcher
       matches = []
       ip = indicator.value
 
-      return []
-      # Check against known malicious IP ranges
-      malicious_ranges = MaliciousIpRange.all
-      malicious_ranges.each do |range|
-        if IPAddr.new(range.cidr).include?(IPAddr.new(ip))
+      otx = OTX::IP.new(Rails.application.credentials.dig(:otx, :key))
+      ip_data = {}
+      begin
+        # ip_data[:general] = otx.get_general(ip)
+        ip_data[:reputation] = otx.get_reputation(ip)
+        ip_data[:geo] = otx.get_geo(ip)
+        ip_data[:malware] = otx.get_malware(ip)
+        ip_data[:url_list] = otx.get_url_list(ip)
+        ip_data[:passive_dns] = otx.get_passive_dns(ip)
+        #  ip_data[:http_scans] = otx.get_http_scans(ip)
+
+        if ip_data[:reputation] && ip_data[:reputation].any?
+          pulses = ip_data[:reputation]["pulse_info"]["pulses"]
+          threat_actors = pulses.map { |p| p["author_name"] }.uniq.join(", ")
+
+          # Calculate confidence based on number of reports
+          confidence = [ pulses.size / 10.0, 0.9 ].min
+          tactic = Tactic.find_by(mitre_id: "T1204.001")
+
           matches << {
-            pattern_type: "malicious_ip_range",
-            confidence: range.confidence / 100.0,
+            pattern_type: "malicious_ip_intel",
+            confidence: confidence,
             severity_weight: 0.8,
             event_type: "network_connection",
-            mitre_tactic_id: "TA0011", # Command and Control
-            threat_actor: range.threat_actor
+            tactic_id: tactic.id,
+            mitre_tactic_id: tactic.mitre_id,
+            threat_actor: threat_actors.presence || "Unknown",
+            pulse_count: pulses.size,
+            pulse_names: pulses.map { |p| p["name"] }.uniq
           }
         end
-      end
 
-      # Check for Tor exit nodes
-      if TorExitNode.exists?(ip: ip)
-        matches << {
-          pattern_type: "tor_exit_node",
-          confidence: 0.9,
-          severity_weight: 0.6,
-          event_type: "anonymization",
-          mitre_tactic_id: "TA0008" # Lateral Movement
-        }
-      end
+        # Process malware data
+        if ip_data[:malware] && ip_data[:malware].any?
+          malware_samples = ip_data[:malware]
 
-      # Check for known C2 servers
-      if CommandAndControlServer.exists?(ip: ip)
-        c2_server = CommandAndControlServer.find_by(ip: ip)
-        matches << {
-          pattern_type: "command_and_control",
-          confidence: 0.95,
-          severity_weight: 0.9,
-          event_type: "command_and_control",
-          mitre_tactic_id: "TA0011", # Command and Control
-          threat_actor: c2_server.threat_actor
-        }
+          # Higher confidence with more malware samples
+          confidence = [ malware_samples.size / 5.0, 0.95 ].min
+
+          # Extract malware family names if available
+          malware_families = malware_samples.map { |m| m.malware_hash }.compact.uniq
+
+          matches << {
+            pattern_type: "ip_hosts_malware",
+            confidence: confidence,
+            severity_weight: 0.9,
+            event_type: "network_connection",
+            mitre_tactic_id: "TA0011", # Command and Control
+            malware_families: malware_families.presence || [ "Unknown" ],
+            malware_count: malware_samples.size
+          }
+        end
+
+        if ip_data[:url_list] && ip_data[:url_list].any?
+          urls = ip_data[:url_list]
+
+          # Extract domains from URLs
+          domains = urls.map { |u| URI.parse(u.url).host rescue nil }.compact.uniq
+
+          matches << {
+            pattern_type: "suspicious_url_host",
+            confidence: [ urls.size / 20.0, 0.8 ].min,
+            severity_weight: 0.7,
+            event_type: "network_connection",
+            mitre_tactic_id: "TA0011", # Command and Control
+            url_count: urls.size,
+            domains: domains.first(10) # Limit to first 10 domains
+          }
+        end
+
+        if ip_data[:passive_dns] && ip_data[:passive_dns].any?
+          dns_records = ip_data[:passive_dns]
+
+          suspicious_domains = dns_records.select do |record|
+            hostname = record.hostname.downcase
+            MaliciousDomain.exists? name: hostname
+          end
+
+          if suspicious_domains.any?
+            matches << {
+              pattern_type: "suspicious_domain_pattern",
+              confidence: 0.75,
+              severity_weight: 0.7,
+              mitre_tactic_id: "TA0011", # Command and Control
+              event_type: "network_connection",
+              suspicious_domains: suspicious_domains.map { |d| d.hostname }.uniq
+            }
+          end
+        end
+
+        if ip_data[:geo] && ip_data[:geo].present?
+          high_risk_countries = [ "RU", "CN", "IR", "KP", "VE" ]
+          country_code = ip_data[:geo].country_code
+
+          if high_risk_countries.include?(country_code)
+            matches << {
+              pattern_type: "high_risk_country",
+              confidence: 0.6, # Lower confidence as geography alone isn't definitive
+              severity_weight: 0.5,
+              event_type: "network_connection",
+              mitre_tactic_id: "TA0011", # Command and Control
+              country_code: country_code,
+              country_name: ip_data[:geo].country_name
+            }
+          end
+        end
       end
 
       matches
@@ -76,18 +143,17 @@ class Analysis::PatternMatcher
       matches = []
       domain = indicator.value
 
-      # Check against known malicious domains
-      #     if MaliciousDomain.exists?(domain: domain)
-      #      mal_domain = MaliciousDomain.find_by(domain: domain)
-      #       matches << {
-      #         pattern_type: "malicious_domain",
-      #         confidence: mal_domain.confidence / 100.0,
-      #         severity_weight: 0.8,
-      #         event_type: "dns_request",
-      #         mitre_tactic_id: "TA0011", # Command and Control
-      #         threat_actor: mal_domain.threat_actor
-      #       }
-      #     end
+      Check against known malicious domains
+      if MaliciousDomain.exists?(name: domain)
+        matches << {
+          pattern_type: "malicious_domain",
+          confidence: 0.7,
+          severity_weight: 0.8,
+          event_type: "dns_request",
+          mitre_tactic_id: "TA0011", # Command and Control
+          threat_actor: nil
+        }
+      end
 
       # Check for DGA (Domain Generation Algorithm) patterns
       if domain.length > 20 && domain.match?(/[0-9a-f]{10,}/)
@@ -97,6 +163,7 @@ class Analysis::PatternMatcher
           confidence: 0.7,
           severity_weight: 0.7,
           event_type: "dns_request",
+          mitre_tactic_id: tactic.mitre_id,
           tactic_id: tactic.id
         }
       end
@@ -111,6 +178,7 @@ class Analysis::PatternMatcher
           severity_weight: 0.7,
           event_type: "phishing_preparation",
           tactic_id: tactic.id,
+          mitre_tactic_id: tactic.mitre_id,
           context: { target_domain: typosquat_target }
         }
       end
@@ -159,6 +227,7 @@ class Analysis::PatternMatcher
             severity_weight: 0.8,
             event_type: "phishing",
             tactic_id: tactic.id,
+            mitre_tactic_id: tactic.mitre_id,
             context: { target_domain: lookalike_target }
           }
         end
@@ -172,6 +241,7 @@ class Analysis::PatternMatcher
           confidence: 0.7,
           severity_weight: 0.8,
           event_type: "exploit_attempt",
+          mitre_tactic_id: tactic.mitre_id,
           tactic_id: tactic.id
         }
       end

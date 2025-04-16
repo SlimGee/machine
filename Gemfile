@@ -85,3 +85,14 @@ gem "text", "~> 1.3"
 gem "rails_icons", "~> 1.2"
 
 gem "kaminari", "~> 1.2"
+
+gem "otx_ruby", "~> 0.9.10"
+
+gem "eps", "~> 0.6.0"
+
+gem "daru", "~> 0.3"
+
+gem "rover-df", "~> 0.4.1"
+
+
+gem "idn-ruby", "~> 0.1.5"

@@ -1,8 +1,8 @@
 class Analysis::Engine
   def self.analyze_new_indicators
-    new_indicators = Indicator.where("created_at > ?", 7.day.ago).where(indicator_type: "ipaddress").last(5)
+    new_indicators = Indicator.where("created_at > ?", 7.day.ago)
     # Process each new indicator
-    new_indicators.each do |indicator|
+    new_indicators.find_each do |indicator|
       # Check for pattern matches
       matches = find_pattern_matches(indicator)
 
@@ -171,7 +171,7 @@ private
   def self.identify_potential_targets(indicator)
     # Identify potential targets based on indicator type and value
     case indicator.indicator_type
-    when "ip_address"
+    when "ipaddress"
       # Find targets with assets using this IP
       targets = Target.joins(:assets).where(assets: { identifier: indicator.value })
 

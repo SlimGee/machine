@@ -1,13 +1,14 @@
 <!-- app/views/devise/_auth_layout.html.erb -->
 <div class="grid flex-wrap md:flex md:w-screen md:h-[calc(100vh-60px)]">
   <div
-    class="flex order-2 justify-center items-center p-10 mx-auto md:order-1 md:w-1/2"
+    class="
+      flex order-2 justify-center items-center p-10 mx-auto md:order-1 md:w-1/2
+    "
   >
     <div class="mx-auto w-full md:w-[400px]">
       <%= link_to root_path, class: "group inline-block mb-6" do %>
         <!-- Swap for your logo -->
-        <%= icon "logo",
-        custom_path: "/railsui/logo.svg",
+        <%= image_tag "/railsui/logo.svg",
         class:
           "group-hover:brightness-105 group-hover:scale-95 transform ease-in-out duration-200 transition-transform group-hover:-rotate-2 w-32 h-10 text-primary-500 fill-current" %>
       <% end %>

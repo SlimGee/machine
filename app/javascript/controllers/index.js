@@ -3,7 +3,10 @@
 // ./bin/rails generate stimulus controllerName
 
 import { application } from "./application"
+import "./railsui"
 
 import HelloController from "./hello_controller"
+import preloader_controller from "./preloader_controller"
+
 application.register("hello", HelloController)
-import "./railsui"
+application.register("preloader", preloader_controller)

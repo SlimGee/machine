@@ -4,8 +4,9 @@ class Analysis::Engine
     # Process each new indicator
     new_indicators.find_each do |indicator|
       # Check for pattern matches
+  
       matches = find_pattern_matches(indicator)
-
+      puts matches.inspect
       correlations = correlate_with_events(indicator)
 
       create_events_from_indicator(indicator, matches)
@@ -13,6 +14,8 @@ class Analysis::Engine
       update_threat_actor_profiles(indicator, matches, correlations)
 
       run_predictions_for_targets(indicator)
+    rescue StandardError
+      next
     end
   end
 

@@ -139,6 +139,8 @@ class Analysis::PatternMatcher
             }
           end
         end
+      rescue Faraday::TimeoutError
+        retry
       end
 
       matches

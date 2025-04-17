@@ -20,6 +20,7 @@ default: &default
   user: <%= Rails.application.credentials.dig(:postgresql, :username) %>
   password: <%= Rails.application.credentials.dig(:postgresql, :password) %>
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host: localhost
 development:
   !!merge <<: *default
   database: machine_development

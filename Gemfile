@@ -66,7 +66,7 @@ end
 
 gem "httpparty", "~> 0.2.0"
 
-gem "faraday", "~> 2.12"
+gem "faraday", "~> 2.13"
 
 gem "tailwindcss", "~> 0.1.1"
 

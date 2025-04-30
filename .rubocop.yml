@@ -1,19 +1,6 @@
-# Omakase Ruby styling for Rails
-inherit_gem: { rubocop-rails-omakase: rubocop.yml }
+inherit_gem:
+  rubocop-rails_config:
+    - config/rails.yml
 
-# Overwrite or add rules to create your own house style
-#
-# # Use `[a, [b, c]]` not `[ a, [ b, c ] ]`
-Layout/SpaceInsideArrayLiteralBrackets:
-  Enabled: true
-Layout/IndentationConsistency:
-  Enabled: true
-  EnforcedStyle: indented_internal_methods
-
-Layout/IndentationWidth:
-  Enabled: true
-Layout/SpaceInsidePercentLiteralDelimiters:
-  Enabled: true
-  EnforcedStyle: space
-Style/FrozenStringLiteralComment:
-  Enabled: false
+AllCops:
+  TargetRubyVersion: 3.3.6

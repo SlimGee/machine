@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_16_195703) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_30_204427) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -82,6 +82,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_16_195703) do
     t.datetime "updated_at", null: false
     t.index ["event_id"], name: "index_event_indicators_on_event_id"
     t.index ["indicator_id"], name: "index_event_indicators_on_indicator_id"
+  end
+
+  create_table "event_tactics", force: :cascade do |t|
+    t.bigint "event_id", null: false
+    t.bigint "tactic_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_event_tactics_on_event_id"
+    t.index ["tactic_id"], name: "index_event_tactics_on_tactic_id"
   end
 
   create_table "event_threat_actors", force: :cascade do |t|
@@ -219,6 +228,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_16_195703) do
   add_foreign_key "correlations", "events", column: "second_event_id"
   add_foreign_key "event_indicators", "events"
   add_foreign_key "event_indicators", "indicators"
+  add_foreign_key "event_tactics", "events"
+  add_foreign_key "event_tactics", "tactics"
   add_foreign_key "event_threat_actors", "events"
   add_foreign_key "event_threat_actors", "threat_actors"
   add_foreign_key "events", "tactics"

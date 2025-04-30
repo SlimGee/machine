@@ -1,45 +1,45 @@
 <div
   class="
-    overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-gray-800
+    overflow-hidden bg-white rounded-xl border border-gray-200 dark:border-gray-800
     dark:bg-white/[0.03]
   "
 >
-  <div class="max-w-full overflow-x-auto">
+  <div class="overflow-x-auto max-w-full">
     <table class="min-w-full">
       <!-- table header start -->
       <thead>
         <tr class="border-b border-gray-100 dark:border-gray-800">
-          <th class="px-5 py-3 sm:px-6">
+          <th class="py-3 px-5 sm:px-6">
             <div class="flex items-center">
-              <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">
+              <p class="font-medium text-gray-500 dark:text-gray-400 text-theme-xs">
                 Event type
               </p>
             </div>
           </th>
-          <th class="px-5 py-3 sm:px-6">
+          <th class="py-3 px-5 sm:px-6">
             <div class="flex items-center">
-              <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">
+              <p class="font-medium text-gray-500 dark:text-gray-400 text-theme-xs">
                 Timestamp
               </p>
             </div>
           </th>
-          <th class="px-5 py-3 sm:px-6">
+          <th class="py-3 px-5 sm:px-6">
             <div class="flex items-center">
-              <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">
+              <p class="font-medium text-gray-500 dark:text-gray-400 text-theme-xs">
                 Description
               </p>
             </div>
           </th>
-          <th class="px-5 py-3 sm:px-6">
+          <th class="py-3 px-5 sm:px-6">
             <div class="flex items-center">
-              <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">
+              <p class="font-medium text-gray-500 dark:text-gray-400 text-theme-xs">
                 Severity
               </p>
             </div>
           </th>
-          <th class="px-5 py-3 sm:px-6">
+          <th class="py-3 px-5 sm:px-6">
             <div class="flex items-center">
-              <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">
+              <p class="font-medium text-gray-500 dark:text-gray-400 text-theme-xs">
                 Tactic
               </p>
             </div>
@@ -52,9 +52,9 @@
         <% events.each do |event| %>
 
           <tr>
-            <td class="px-5 py-4 sm:px-6">
+            <td class="py-4 px-5 sm:px-6">
               <div class="flex items-center">
-                <div class="flex items-center gap-3">
+                <div class="flex gap-3 items-center">
                   <div>
                     <span class="block font-medium text-gray-800 text-theme-sm dark:text-white/90">
                       <%= event.event_type %>
@@ -63,26 +63,26 @@
                 </div>
               </div>
             </td>
-            <td class="px-5 py-4 sm:px-6">
+            <td class="py-4 px-5 sm:px-6">
               <div class="flex items-center">
-                <p class="text-gray-500 text-theme-sm dark:text-gray-400">
+                <p class="text-gray-500 dark:text-gray-400 text-theme-sm">
                   <%= event.timestamp %>
                 </p>
               </div>
             </td>
-            <td class="px-5 py-4 sm:px-6">
+            <td class="py-4 px-5 sm:px-6">
               <div class="flex items-center">
-                <p class="text-gray-500 text-theme-sm dark:text-gray-400">
+                <p class="text-gray-500 dark:text-gray-400 text-theme-sm">
                   <%= event.description %>
                 </p>
               </div>
             </td>
-            <td class="px-5 py-4 sm:px-6">
+            <td class="py-4 px-5 sm:px-6">
               <div class="flex items-center">
 
                 <p
                   class="
-                    rounded-full bg-success-50 px-2 py-0.5 text-theme-xs font-medium
+                    py-0.5 px-2 font-medium rounded-full bg-success-50 text-theme-xs
                     text-success-700 dark:bg-success-500/15 dark:text-success-500
                   "
                 >
@@ -90,15 +90,10 @@
                 </p>
               </div>
             </td>
-            <td class="px-5 py-4 sm:px-6">
+            <td class="py-4 px-5 sm:px-6">
               <div class="flex items-center">
-                <p class="text-gray-500 text-theme-sm dark:text-gray-400">
-                  <% if event.tactic.present? %>
-                    <%= event.tactic.name %>
-                    (<%= event.tactic.mitre_id %>)
-                  <% else %>
-                    Unknown
-                  <% end %>
+                <p class="text-gray-500 dark:text-gray-400 text-theme-sm">
+                  <%= event.tactics.map(&:name).join(", ") %>
                 </p>
               </div>
             </td>

@@ -30,7 +30,6 @@ class Analysis::EventCorrelator
   end
 
   private
-
     def self.find_related_events(indicator)
       case indicator.indicator_type
       when "ip_address"
@@ -98,9 +97,6 @@ class Analysis::EventCorrelator
       end
 
       # Adjust based on tactic match
-      if event.tactic && indicator.tactics.include?(event.tactic)
-        base_confidence += 0.1
-      end
 
       # Cap confidence at 0.95
       [ base_confidence, 0.95 ].min

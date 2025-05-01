@@ -1,15 +1,15 @@
 class Analysis::Engine
   def self.analyze_new_indicators
     Indicator.where("created_at > ?", 7.day.ago).where(analysed: false).find_in_batches(batch_size: 1000) do |indicators|
-      Parallel.each(indicators, in_threads: 8) do |indicator|
+      Parallel.each(indicators, in_threads: 16) do |indicator|
         ActiveRecord::Base.connection_pool.with_connection do
           matches = find_pattern_matches(indicator)
 
           correlations = correlate_with_events(indicator)
 
-          create_events_from_indicator(indicator, matches)
+          event = create_events_from_indicator(indicator, matches)
 
-          update_threat_actor_profiles(indicator, matches, correlations)
+          update_threat_actor_profiles(indicator, matches, correlations, event)
 
           run_predictions_for_targets(indicator)
 
@@ -50,7 +50,6 @@ class Analysis::Engine
       )
     end
 
-
     # Associate indicator with event
     EventIndicator.create!(
       event: event,
@@ -61,7 +60,7 @@ class Analysis::Engine
     event
   end
 
-  def self.update_threat_actor_profiles(indicator, matches, correlations)
+  def self.update_threat_actor_profiles(indicator, matches, correlations, event)
     # Update threat actor profiles based on new intelligence
     threat_actors = identify_threat_actors(indicator, matches, correlations)
     puts threat_actors.inspect
@@ -77,13 +76,16 @@ class Analysis::Engine
       )
 
       # Connect to events if applicable
-      if actor_data[:event_id]
-        EventThreatActor.find_or_create_by(
-          event_id: actor_data[:event_id],
-          threat_actor: actor,
-          confidence: actor_data[:confidence]
-        )
-      end
+      EventThreatActor.find_or_create_by(
+        event: event,
+        threat_actor: actor,
+        confidence: actor_data[:confidence]
+      )
+
+      ThreatActorIndicator.find_or_create_by(
+        threat_actor: actor,
+        indicator: indicator,
+      )
     end
   end
 

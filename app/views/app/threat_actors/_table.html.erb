@@ -1,0 +1,122 @@
+<div
+  class="
+    overflow-hidden bg-white rounded-xl border border-gray-200 dark:border-gray-800
+    dark:bg-white/[0.03]
+  "
+>
+  <div class="overflow-x-auto max-w-full">
+    <table class="min-w-full">
+      <!-- table header start -->
+      <thead>
+        <tr class="border-b border-gray-100 dark:border-gray-800">
+          <th class="py-3 px-5 sm:px-6">
+            <div class="flex items-center">
+              <p class="font-medium text-gray-500 dark:text-gray-400 text-theme-xs">
+                Name
+              </p>
+            </div>
+          </th>
+          <th class="py-3 px-5 sm:px-6">
+            <div class="flex items-center">
+              <p class="font-medium text-gray-500 dark:text-gray-400 text-theme-xs">
+                Description
+              </p>
+            </div>
+          </th>
+          <th class="py-3 px-5 sm:px-6">
+            <div class="flex items-center">
+              <p class="font-medium text-gray-500 dark:text-gray-400 text-theme-xs">
+                First seen
+              </p>
+            </div>
+          </th>
+          <th class="py-3 px-5 sm:px-6">
+            <div class="flex items-center">
+              <p class="font-medium text-gray-500 dark:text-gray-400 text-theme-xs">
+                Last seen
+              </p>
+            </div>
+          </th>
+
+          <th class="py-3 px-5 sm:px-6">
+            <div class="flex items-center">
+              <p class="font-medium text-gray-500 dark:text-gray-400 text-theme-xs">
+                No of Attributed Events
+              </p>
+            </div>
+          </th>
+
+          <th class="py-3 px-5 sm:px-6">
+            <div class="flex items-center">
+              <p class="font-medium text-gray-500 dark:text-gray-400 text-theme-xs">
+                IoCs
+              </p>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <!-- table header end --> <!-- table body start -->
+      <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
+        <% threat_actors.each do |threat_actor| %>
+
+          <tr>
+            <td class="py-4 px-5 sm:px-6">
+              <div class="flex items-center">
+                <div class="flex gap-3 items-center">
+                  <div>
+                    <span class="block font-medium text-gray-800 text-theme-sm dark:text-white/90">
+                      <%= threat_actor.name %>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td class="py-4 px-5 sm:px-6">
+              <div class="flex items-center">
+                <p class="text-gray-500 dark:text-gray-400 text-theme-sm">
+                  <%= threat_actor.description %>
+                </p>
+              </div>
+            </td>
+
+            <td class="py-4 px-5 sm:px-6">
+              <div class="flex items-center">
+
+                <p
+                  class="
+                    py-0.5 px-2 font-medium rounded-full bg-success-50 text-theme-xs
+                    text-success-700 dark:bg-success-500/15 dark:text-success-500
+                  "
+                >
+                  <%= threat_actor.first_seen %>
+                </p>
+              </div>
+            </td>
+            <td class="py-4 px-5 sm:px-6">
+              <div class="flex items-center">
+                <p class="text-gray-500 dark:text-gray-400 text-theme-sm">
+                  <%= threat_actor.last_seen.strftime("%d %b %Y at %H:%M") %>
+                </p>
+              </div>
+            </td>
+            <td class="py-4 px-5 sm:px-6">
+              <div class="flex items-center">
+                <p class="text-gray-500 dark:text-gray-400 text-theme-sm">
+                  <%= threat_actor.events.count %>
+                </p>
+              </div>
+            </td>
+
+            <td class="py-4 px-5 sm:px-6">
+              <div class="flex items-center">
+                <p class="text-gray-500 dark:text-gray-400 text-theme-sm">
+                  <%= threat_actor.indicators.count %>
+                </p>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,11 @@
+<% content_for :title, "New threat actor" %>
+
+<h1>New threat actor</h1>
+
+<%= render "form", threat_actor: @threat_actor %>
+
+<br>
+
+<div>
+  <%= link_to "Back to threat actors", app_threat_actors_path %>
+</div>

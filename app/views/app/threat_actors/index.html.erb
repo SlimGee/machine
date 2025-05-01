@@ -1,0 +1,26 @@
+<p style="color: green"><%= notice %></p>
+
+<% set_meta_tags title: "Threat actors" %>
+
+<div class="space-y-5 sm:space-y-6">
+  <div
+    class="
+      bg-white rounded-2xl border border-gray-200 dark:border-gray-800
+      dark:bg-white/[0.03]
+    "
+  >
+    <div class="flex justify-between items-center py-4 px-5 sm:py-5 sm:px-6">
+      <h3 class="text-base font-medium text-gray-800 dark:text-white/90">
+        Threat actors
+      </h3>
+    </div>
+  </div>
+
+  <div class="">
+    <!-- ====== Table Six Start -->
+    <%= render "table", threat_actors: @threat_actors %>
+    <div class="mt-5">
+      <%= paginate @threat_actors %>
+    </div>
+  </div>
+</div>

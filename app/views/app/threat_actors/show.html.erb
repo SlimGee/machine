@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @threat_actor %>
+
+<div>
+  <%= link_to "Edit this threat actor", edit_app_threat_actor_path(@threat_actor) %> |
+  <%= link_to "Back to threat actors", app_threat_actors_path %>
+
+  <%= button_to "Destroy this threat actor", [:app, @threat_actor], method: :delete %>
+</div>

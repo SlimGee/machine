@@ -510,6 +510,7 @@ DEPENDENCIES
   kaminari (~> 1.2)
   name_of_person (~> 1.1)
   otx_ruby (~> 0.9.10)
+  parallel (~> 1.27)
   pg (~> 1.1)
   propshaft
   puma (>= 5.0)

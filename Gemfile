@@ -97,3 +97,5 @@ gem "rover-df", "~> 0.4.1"
 
 gem "idn-ruby", "~> 0.1.5"
 gem "rubocop-rails_config"
+
+gem "parallel", "~> 1.27"

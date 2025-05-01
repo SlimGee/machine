@@ -19,7 +19,7 @@ default: &default
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   user: <%= Rails.application.credentials.dig(:postgresql, :username) %>
   password: <%= Rails.application.credentials.dig(:postgresql, :password) %>
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 8 } %>
   host: localhost
 development:
   !!merge <<: *default

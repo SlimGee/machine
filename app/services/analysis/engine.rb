@@ -1,18 +1,24 @@
 class Analysis::Engine
   def self.analyze_new_indicators
-    new_indicators = Indicator.where("created_at > ?", 14.day.ago)
-    # Process each new indicator
-    new_indicators.find_each do |indicator|
-      # Check for pattern matches
-      matches = find_pattern_matches(indicator)
+    Indicator.where("created_at > ?", 7.day.ago).where(analysed: false).find_in_batches(batch_size: 1000) do |indicators|
+      Parallel.each(indicators, in_threads: 8) do |indicator|
+        ActiveRecord::Base.connection_pool.with_connection do
+          matches = find_pattern_matches(indicator)
 
-      correlations = correlate_with_events(indicator)
+          correlations = correlate_with_events(indicator)
 
-      create_events_from_indicator(indicator, matches)
+          create_events_from_indicator(indicator, matches)
 
-      update_threat_actor_profiles(indicator, matches, correlations)
+          update_threat_actor_profiles(indicator, matches, correlations)
 
-      run_predictions_for_targets(indicator)
+          run_predictions_for_targets(indicator)
+
+          indicator.update(analysed: true)
+        rescue StandardError => e
+          puts "Error processing indicator #{indicator.value}: #{e.message}"
+          next
+        end
+      end
     end
   end
 

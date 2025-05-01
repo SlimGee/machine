@@ -41,6 +41,8 @@ class Analysis::PatternMatcher
           pulse.attack_ids.any?
         end
 
+        puts ip_data.to_json
+
         pulses = ip_data[:general].pulse_info.pulses
         threat_actors = pulses.filter_map { |pulse| pulse.adversary if pulse.adversary.present? }.uniq.join(", ")
 

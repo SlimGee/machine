@@ -2,7 +2,8 @@ class FeedIngestionJob < ApplicationJob
   queue_as :feeds
 
   def perform(feed_config = nil)
-    service = FeedIngestionService.new
+    service = Ingestion::Feeds.new
+
 
     if feed_config
       # Ingest a specific feed

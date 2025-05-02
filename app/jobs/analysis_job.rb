@@ -8,18 +8,17 @@ class AnalysisJob < ApplicationJob
     Analysis::Engine.analyze_new_indicators
 
     # Update prediction models if needed
-    if should_update_models?
-      Ml::PredictionModel.where(status: :active).each do |model|
-        ModelTrainingJob.perform_later(model)
-      end
-    end
+    # if should_update_models?
+    ##  Ml::PredictionModel.where(status: :active).each do |model|
+    #    ModelTrainingJob.perform_later(model)
+    #  end
+    # end
 
     # Run predictions for high-risk targets
     predict_for_high_risk_targets
   end
 
   private
-
     def should_update_models?
       # Check if models need updating (e.g., no updates in past week)
       Ml::PredictionModel.where(status: :active)

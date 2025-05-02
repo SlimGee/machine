@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_16_195703) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_01_141900) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -84,6 +84,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_16_195703) do
     t.index ["indicator_id"], name: "index_event_indicators_on_indicator_id"
   end
 
+  create_table "event_tactics", force: :cascade do |t|
+    t.bigint "event_id", null: false
+    t.bigint "tactic_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_event_tactics_on_event_id"
+    t.index ["tactic_id"], name: "index_event_tactics_on_tactic_id"
+  end
+
   create_table "event_threat_actors", force: :cascade do |t|
     t.bigint "event_id", null: false
     t.bigint "threat_actor_id", null: false
@@ -114,6 +123,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_16_195703) do
     t.bigint "source_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "analysed", default: false, null: false
     t.index ["source_id"], name: "index_indicators_on_source_id"
   end
 
@@ -175,6 +185,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_16_195703) do
     t.index ["tactic_id"], name: "index_techniques_on_tactic_id"
   end
 
+  create_table "threat_actor_indicators", force: :cascade do |t|
+    t.bigint "threat_actor_id", null: false
+    t.bigint "indicator_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["indicator_id"], name: "index_threat_actor_indicators_on_indicator_id"
+    t.index ["threat_actor_id"], name: "index_threat_actor_indicators_on_threat_actor_id"
+  end
+
   create_table "threat_actors", force: :cascade do |t|
     t.text "name"
     t.text "description"
@@ -219,6 +238,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_16_195703) do
   add_foreign_key "correlations", "events", column: "second_event_id"
   add_foreign_key "event_indicators", "events"
   add_foreign_key "event_indicators", "indicators"
+  add_foreign_key "event_tactics", "events"
+  add_foreign_key "event_tactics", "tactics"
   add_foreign_key "event_threat_actors", "events"
   add_foreign_key "event_threat_actors", "threat_actors"
   add_foreign_key "events", "tactics"
@@ -227,5 +248,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_16_195703) do
   add_foreign_key "predictions", "techniques"
   add_foreign_key "predictions", "threat_actors"
   add_foreign_key "techniques", "tactics"
+  add_foreign_key "threat_actor_indicators", "indicators"
+  add_foreign_key "threat_actor_indicators", "threat_actors"
   add_foreign_key "vulnerabilities", "assets"
 end

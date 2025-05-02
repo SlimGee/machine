@@ -1,21 +1,24 @@
 class Analysis::Engine
   def self.analyze_new_indicators
-    new_indicators = Indicator.where("created_at > ?", 7.day.ago)
-    # Process each new indicator
-    new_indicators.find_each do |indicator|
-      # Check for pattern matches
-  
-      matches = find_pattern_matches(indicator)
-      puts matches.inspect
-      correlations = correlate_with_events(indicator)
+    Indicator.where("created_at > ?", 7.day.ago).where(analysed: false).find_in_batches(batch_size: 1000) do |indicators|
+      Parallel.each(indicators, in_threads: 16) do |indicator|
+        ActiveRecord::Base.connection_pool.with_connection do
+          matches = find_pattern_matches(indicator)
 
-      create_events_from_indicator(indicator, matches)
+          correlations = correlate_with_events(indicator)
 
-      update_threat_actor_profiles(indicator, matches, correlations)
+          event = create_events_from_indicator(indicator, matches)
 
-      run_predictions_for_targets(indicator)
-    rescue StandardError
-      next
+          update_threat_actor_profiles(indicator, matches, correlations, event)
+
+          run_predictions_for_targets(indicator)
+
+          indicator.update(analysed: true)
+        rescue StandardError => e
+          puts "Error processing indicator #{indicator.value}: #{e.message}"
+          next
+        end
+      end
     end
   end
 
@@ -36,8 +39,16 @@ class Analysis::Engine
       timestamp: indicator.first_seen || Time.current,
       description: "Event detected based on indicator #{indicator.value} [#{indicator.indicator_type}]",
       severity: determine_severity(matches),
-      tactic_id: identify_tactic(matches)
     )
+
+    puts identify_tactics(matches).inspect
+
+    identify_tactics(matches).each do |tactic_id|
+      EventTactic.create!(
+        event: event,
+        tactic_id: tactic_id,
+      )
+    end
 
     # Associate indicator with event
     EventIndicator.create!(
@@ -46,17 +57,13 @@ class Analysis::Engine
       context: "Automatically detected pattern match"
     )
 
-    # Associate with tactic if identifiable
-    if tactic = identify_tactic(matches)
-      event.update(tactic: tactic)
-    end
-
     event
   end
 
-  def self.update_threat_actor_profiles(indicator, matches, correlations)
+  def self.update_threat_actor_profiles(indicator, matches, correlations, event)
     # Update threat actor profiles based on new intelligence
     threat_actors = identify_threat_actors(indicator, matches, correlations)
+    puts threat_actors.inspect
 
     threat_actors.each do |actor_data|
       actor = ThreatActor.find_or_create_by(name: actor_data[:name])
@@ -69,13 +76,16 @@ class Analysis::Engine
       )
 
       # Connect to events if applicable
-      if actor_data[:event_id]
-        EventThreatActor.find_or_create_by(
-          event_id: actor_data[:event_id],
-          threat_actor: actor,
-          confidence: actor_data[:confidence]
-        )
-      end
+      EventThreatActor.find_or_create_by(
+        event: event,
+        threat_actor: actor,
+        confidence: actor_data[:confidence]
+      )
+
+      ThreatActorIndicator.find_or_create_by(
+        threat_actor: actor,
+        indicator: indicator,
+      )
     end
   end
 
@@ -101,7 +111,6 @@ class Analysis::Engine
   end
 
 private
-
   def self.determine_event_type(matches)
     # Logic to determine event type based on pattern matches
     highest_confidence_match = matches.max_by { |match| match[:confidence] }
@@ -123,14 +132,12 @@ private
     end
   end
 
-  def self.identify_tactic(matches)
-    # Try to identify MITRE ATT&CK tactic from matches
-    tactic_matches = matches.select { |match| match[:mitre_tactic_id].present? }
-    return nil if tactic_matches.empty?
+  def self.identify_tactics(matches)
+    tactics = matches.flat_map do |match|
+      match[:tactic_ids] if match[:tactic_ids].present?
+    end
 
-    # Use the highest confidence tactic match
-    best_match = tactic_matches.max_by { |match| match[:confidence] }
-    Tactic.find_by(mitre_id: best_match[:mitre_tactic_id])
+    tactics.flatten.uniq.filter(&:presence)
   end
 
   def self.identify_threat_actors(indicator, matches, correlations)
@@ -140,11 +147,13 @@ private
     # Extract threat actors from pattern matches
     matches.each do |match|
       if match[:threat_actor].present?
-        threat_actors << {
-          name: match[:threat_actor],
-          confidence: match[:confidence],
-          event_id: match[:event_id]
-        }
+        match[:threat_actor].split(",").each do |actor|
+          threat_actors << {
+            name: actor.strip,
+            confidence: match[:confidence],
+            event_id: match[:event_id]
+          }
+        end
       end
     end
 

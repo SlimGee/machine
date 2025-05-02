@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   namespace :app do
+    resources :threat_actors
     resources :indicators
     resources :events
     resources :sources

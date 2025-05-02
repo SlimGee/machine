@@ -23,7 +23,6 @@ class Analysis::PatternMatcher
   end
 
   private
-
     def self.match_ip_address(indicator)
       matches = []
       ip = indicator.value
@@ -39,25 +38,34 @@ class Analysis::PatternMatcher
         ip_data[:url_list] = otx.get_url_list(ip)
         ip_data[:passive_dns] = otx.get_passive_dns(ip)
         #  ip_data[:http_scans] = otx.get_http_scans(ip)
+        ip_data[:general].pulse_info.pulses.filter do |pulse|
+          pulse.attack_ids.any?
+        end
+
+        puts ip_data.to_json
 
         pulses = ip_data[:general].pulse_info.pulses
-        threat_actors  = pulses.select { |pulse| pulse.adversary.present? }.map { |p| p.adversary }.uniq.join(",")
+        threat_actors = pulses.filter_map { |pulse| pulse.adversary if pulse.adversary.present? }.uniq.join(", ")
+
+        mitre_ids = pulses.filter_map do |pulse|
+            pulse.attack_ids.map do |attack_id|
+              attack_id["id"]
+            end if pulse.attack_ids.any?
+          end
+
+        tactic_ids = Tactic.where(mitre_id: mitre_ids.flatten.uniq).pluck(:id)
 
         if ip_data[:reputation] && ip_data[:reputation].any?
           pulses = ip_data[:reputation].pulse_info.pulses
-
-
           # Calculate confidence based on number of reports
           confidence = [ pulses.size / 10.0, 0.9 ].min
-          tactic = Tactic.find_by(mitre_id: "T1204.001")
 
           matches << {
             pattern_type: "malicious_ip_intel",
             confidence: confidence,
             severity_weight: 0.8,
             event_type: "network_connection",
-            tactic_id: tactic.id,
-            mitre_tactic_id: tactic.mitre_id,
+            tactic_ids: tactic_ids,
             threat_actor: threat_actors.presence || "Unknown"
           }
         end
@@ -77,7 +85,7 @@ class Analysis::PatternMatcher
             confidence: confidence,
             severity_weight: 0.9,
             event_type: "network_connection",
-            mitre_tactic_id: "TA0011", # Command and Control
+            tactic_ids: tactic_ids,
             malware_families: malware_families.presence || [ "Unknown" ],
             malware_count: malware_samples.size,
             threat_actor: threat_actors.presence || "Unknown"
@@ -95,7 +103,7 @@ class Analysis::PatternMatcher
             confidence: [ urls.size / 20.0, 0.8 ].min,
             severity_weight: 0.7,
             event_type: "network_connection",
-            mitre_tactic_id: "TA0011", # Command and Control
+            tactic_ids: tactic_ids,
             url_count: urls.size,
             threat_actor: threat_actors.presence || "Unknown",
             domains: domains.first(10) # Limit to first 10 domains
@@ -115,7 +123,7 @@ class Analysis::PatternMatcher
               pattern_type: "suspicious_domain_pattern",
               confidence: 0.75,
               severity_weight: 0.7,
-              mitre_tactic_id: "TA0011", # Command and Control
+              tactic_ids: tactic_ids,
               event_type: "network_connection",
               threat_actor: threat_actors.presence || "Unknown",
               suspicious_domains: suspicious_domains.map { |d| d.hostname }.uniq
@@ -133,7 +141,7 @@ class Analysis::PatternMatcher
               confidence: 0.6, # Lower confidence as geography alone isn't definitive
               severity_weight: 0.5,
               event_type: "network_connection",
-              mitre_tactic_id: "TA0011", # Command and Control
+              tactic_ids: tactic_ids,
               threat_actor: threat_actors.presence || "Unknown",
               country_code: country_code,
               country_name: ip_data[:geo].country_name
@@ -196,7 +204,7 @@ class Analysis::PatternMatcher
 
     def self.match_file_hash(indicator)
       matches = []
-      file_hash = indicator.value
+      indicator.value
 
       # Check against known malware hashes
       #      if MalwareHash.exists?(hash: file_hash)
@@ -224,7 +232,7 @@ class Analysis::PatternMatcher
       if domain && MaliciousDomain.exists?(name: domain)
         matches << {
           pattern_type: "malicious_domain",
-          confidence: mal_domain.confidence / 100.0,
+          confidence: 8.0,
           severity_weight: 0.7,
           event_type: "malicious_domain",
           mitre_tactic_id: "TA0001", # Initial Access
@@ -357,23 +365,22 @@ class Analysis::PatternMatcher
 
     def self.extract_domain_from_url(url)
       # Simple URL parsing to extract domain
-      begin
-        unless URI.scheme_list.keys.map(&:downcase).any? { |scheme| url.downcase.start_with?(scheme) }
-          url = "http://#{url}"
-        end
 
-        uri = URI.parse(url)
-
-        host = uri.host
-
-        # Remove www prefix if present
-        host = host.sub(/^www\./, "") if host
-
-        host
-        rescue URI::InvalidURIError
-          # If can't parse as URI, try simple regex
-          url.match(/https?:\/\/(?:www\.)?([^\/]+)/)&.captures&.first
+      unless URI.scheme_list.keys.map(&:downcase).any? { |scheme| url.downcase.start_with?(scheme) }
+        url = "http://#{url}"
       end
+
+      uri = URI.parse(url)
+
+      host = uri.host
+
+      # Remove www prefix if present
+      host = host.sub(/^www\./, "") if host
+
+      host
+      rescue URI::InvalidURIError
+        # If can't parse as URI, try simple regex
+        url.match(/https?:\/\/(?:www\.)?([^\/]+)/)&.captures&.first
     end
 
     def self.levenshtein_distance(s, t)

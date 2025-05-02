@@ -3,6 +3,9 @@ class Indicator < ApplicationRecord
   has_many :event_indicators
   has_many :events, through: :event_indicators
 
+  has_many :threat_actor_indicators
+  has_many :threat_actors, through: :threat_actor_indicators
+
   validates :indicator_type, :value, presence: true
   validates :confidence, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }, allow_nil: true
 end

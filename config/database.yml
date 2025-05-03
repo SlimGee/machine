@@ -82,7 +82,7 @@ production:
     database: machine_production
     user: <%= Rails.application.credentials.dig(:postgresql, :username) %>
     password: <%= Rails.application.credentials.dig(:postgresql, :password) %>
-    host: srv-captain--pg
+    host: localhost
   cache:
     !!merge <<: *primary_production
     database: machine_production_cache

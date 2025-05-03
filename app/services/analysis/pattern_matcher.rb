@@ -26,6 +26,7 @@ class Analysis::PatternMatcher
     def self.match_ip_address(indicator)
       matches = []
       ip = indicator.value
+      puts "analysing #{ip}"
 
       otx = OTX::IP.new(Rails.application.credentials.dig(:otx, :key))
       ip_data = {}
@@ -147,8 +148,8 @@ class Analysis::PatternMatcher
             }
           end
         end
-      rescue Faraday::TimeoutError
-        retry
+    #  rescue Faraday::TimeoutError
+     #   retry
       end
 
       matches

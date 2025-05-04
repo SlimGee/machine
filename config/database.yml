@@ -22,13 +22,26 @@ default: &default
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 16 } %>
   host: localhost
 development:
-  !!merge <<: *default
-  database: machine_development
-  # The specified database role being used to connect to PostgreSQL.
-  # To create additional roles in PostgreSQL see `$ createuser --help`.
-  # When left blank, PostgreSQL will use the default role. This is
-  # the same name as the operating system user running Rails.
-  #username: machine
+  primary: &primary_development
+    !!merge <<: *default
+    database: machine_development
+  cache:
+    !!merge <<: *primary_development
+    database: machine_development_cache
+    migrations_paths: db/cache_migrate
+  queue:
+    !!merge <<: *primary_development
+    database: machine_development_queue
+    migrations_paths: db/queue_migrate
+  cable:
+    !!merge <<: *primary_development
+    database: machine_development_cable
+    migrations_paths: db/cable_migrate
+    # The specified database role being used to connect to PostgreSQL.
+    # To create additional roles in PostgreSQL see `$ createuser --help`.
+    # When left blank, PostgreSQL will use the default role. This is
+    # the same name as the operating system user running Rails.
+    #username: machine
 # The password associated with the PostgreSQL role (username).
 #password:
 

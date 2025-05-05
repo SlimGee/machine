@@ -4,4 +4,7 @@ class ThreatActor < ApplicationRecord
 
   has_many :event_threat_actors
   has_many :events, through: :event_threat_actors
+
+  has_many :malware_threat_actors, dependent: :destroy
+  has_many :malwares, through: :malware_threat_actors
 end

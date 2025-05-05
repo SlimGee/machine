@@ -1,7 +1,9 @@
 class Analysis::Engine
   def self.analyze_new_indicators
-    Indicator.where("created_at > ?", 7.day.ago).where(analysed: false).find_in_batches(batch_size: 1000) do |indicators|
-      Parallel.each(indicators, in_threads: 16) do |indicator|
+    query = Indicator.where('updated_at > ?', 30.days.ago).where(analysed: false)
+
+    query.find_in_batches(batch_size: 1000) do |indicators|
+      Parallel.each(indicators, in_threads: 1) do |indicator|
         ActiveRecord::Base.connection_pool.with_connection do
           matches = find_pattern_matches(indicator)
 
@@ -9,13 +11,15 @@ class Analysis::Engine
 
           event = create_events_from_indicator(indicator, matches)
 
-          update_threat_actor_profiles(indicator, matches, correlations, event)
+          malware = update_malware_profile(indicator, matches, event)
+
+          update_threat_actor_profiles(indicator, matches, correlations, event, malware)
 
           run_predictions_for_targets(indicator)
 
           indicator.update(analysed: true)
         rescue StandardError => e
-          puts "Error processing indicator #{indicator.value}: #{e.message}"
+          puts "Error processing indicator #{indicator.value}: #{e.inspect}"
           next
         end
       end
@@ -38,15 +42,13 @@ class Analysis::Engine
       event_type: determine_event_type(matches),
       timestamp: indicator.first_seen || Time.current,
       description: "Event detected based on indicator #{indicator.value} [#{indicator.indicator_type}]",
-      severity: determine_severity(matches),
+      severity: determine_severity(matches)
     )
-
-    puts identify_tactics(matches).inspect
 
     identify_tactics(matches).each do |tactic_id|
       EventTactic.create!(
         event: event,
-        tactic_id: tactic_id,
+        tactic_id: tactic_id
       )
     end
 
@@ -54,38 +56,48 @@ class Analysis::Engine
     EventIndicator.create!(
       event: event,
       indicator: indicator,
-      context: "Automatically detected pattern match"
+      context: 'Automatically detected pattern match'
     )
 
     event
   end
 
-  def self.update_threat_actor_profiles(indicator, matches, correlations, event)
-    # Update threat actor profiles based on new intelligence
+  def self.update_malware_profile(indicator, matches, event)
+    malware = matches.map { |match| match[:malware_families] }
+
+    malware.flatten.map do |family|
+      instance = Malware.find_or_create_by(malware_id: family['id']) do |payload|
+        payload.name = family['display_name']
+        payload.target = family['target']
+      end
+
+      MalwareIndicator.find_or_create_by(
+        malware: instance,
+        indicator: indicator
+      )
+
+      MalwareEvent.find_or_create_by(
+        malware: instance,
+        event: event
+      )
+
+      instance
+    end
+  end
+
+  def self.update_threat_actor_profiles(indicator, matches, correlations, event, malware)
     threat_actors = identify_threat_actors(indicator, matches, correlations)
-    puts threat_actors.inspect
 
-    threat_actors.each do |actor_data|
-      actor = ThreatActor.find_or_create_by(name: actor_data[:name])
+    threat_actors.each do |actor|
+      actor.update(last_seen: Time.current)
 
-      # Update actor profile
-      actor.update(
-        description: actor.description || "Threat actor identified by autonomous analysis",
-        last_seen: Time.current,
-        confidence: actor_data[:confidence]
-      )
+      actor.event_threat_actors.find_or_create_by(event: event)
 
-      # Connect to events if applicable
-      EventThreatActor.find_or_create_by(
-        event: event,
-        threat_actor: actor,
-        confidence: actor_data[:confidence]
-      )
+      actor.threat_actor_indicators.find_or_create_by(indicator: indicator)
 
-      ThreatActorIndicator.find_or_create_by(
-        threat_actor: actor,
-        indicator: indicator,
-      )
+      malware.each do |malware_instance|
+        actor.malware_threat_actors.find_or_create_by(malware: malware_instance)
+      end
     end
   end
 
@@ -104,17 +116,14 @@ class Analysis::Engine
       end
 
       # Evaluate if prediction warrants creating a formal prediction record
-      if should_create_prediction?(prediction_results)
-        create_prediction(target, prediction_results)
-      end
+      create_prediction(target, prediction_results) if should_create_prediction?(prediction_results)
     end
   end
 
-private
   def self.determine_event_type(matches)
     # Logic to determine event type based on pattern matches
     highest_confidence_match = matches.max_by { |match| match[:confidence] }
-    highest_confidence_match[:event_type] || "suspicious_activity"
+    highest_confidence_match[:event_type] || 'suspicious_activity'
   end
 
   def self.determine_severity(matches)
@@ -122,37 +131,37 @@ private
     severity_score = matches.sum { |match| match[:confidence] * match[:severity_weight] }
 
     if severity_score > 0.8
-      "critical"
+      'critical'
     elsif severity_score > 0.6
-      "high"
+      'high'
     elsif severity_score > 0.4
-      "medium"
+      'medium'
     else
-      "low"
+      'low'
     end
   end
 
   def self.identify_tactics(matches)
     tactics = matches.flat_map do |match|
-      match[:tactic_ids] if match[:tactic_ids].present?
+      match[:tactic_ids].presence
     end
 
     tactics.flatten.uniq.filter(&:presence)
   end
 
-  def self.identify_threat_actors(indicator, matches, correlations)
+  def self.identify_threat_actors(_indicator, matches, correlations)
     # Identify potential threat actors based on TTP matches and correlations
     threat_actors = []
 
     # Extract threat actors from pattern matches
     matches.each do |match|
-      if match[:threat_actor].present?
-        match[:threat_actor].split(",").each do |actor|
-          threat_actors << {
-            name: actor.strip,
-            confidence: match[:confidence],
-            event_id: match[:event_id]
-          }
+      next if match[:threat_actor].blank?
+
+      match[:threat_actor].split(',').each do |actor|
+        puts actor
+        threat_actors << ThreatActor.find_or_create_by(name: actor) do |a|
+          a.confidence = match[:confidence]
+          a.last_seen = Time.current
         end
       end
     end
@@ -160,53 +169,44 @@ private
     # Extract threat actors from correlations
     correlations.each do |correlation|
       correlation[:threat_actors].each do |actor|
-        threat_actors << {
-          name: actor[:name],
-          confidence: actor[:confidence] * correlation[:confidence],
-          event_id: correlation[:event_id]
-        }
+        threat_actors << ThreatActor.find_or_create_by(name: actor[:name]) do |a|
+          a.description = actor[:description]
+          a.confidence = actor[:confidence]
+          a.last_seen = Time.current
+        end
       end
     end
 
-    # Consolidate duplicate actors by taking max confidence
-    consolidated_actors = {}
-    threat_actors.each do |actor|
-      existing = consolidated_actors[actor[:name]]
-      if existing.nil? || existing[:confidence] < actor[:confidence]
-        consolidated_actors[actor[:name]] = actor
-      end
-    end
-
-    consolidated_actors.values
+    threat_actors.uniq(&:id)
   end
 
   def self.identify_potential_targets(indicator)
     # Identify potential targets based on indicator type and value
     case indicator.indicator_type
-    when "ipaddress"
+    when 'ipaddress'
       # Find targets with assets using this IP
       targets = Target.joins(:assets).where(assets: { identifier: indicator.value })
 
       # Also find targets in the same network range
-      ip_network = indicator.value.split(".")[0..2].join(".")
-      similar_assets = Asset.where("identifier LIKE ?", "#{ip_network}.%")
+      ip_network = indicator.value.split('.')[0..2].join('.')
+      similar_assets = Asset.where('identifier LIKE ?', "#{ip_network}.%")
       network_targets = Target.where(id: similar_assets.select(:target_id))
 
       targets = (targets + network_targets).uniq
-    when "domain"
+    when 'domain'
       # Find targets with this domain in their assets
       targets = Target.joins(:assets).where(assets: { identifier: indicator.value })
 
       # Also find targets with similar domains
-      domain_parts = indicator.value.split(".")
+      domain_parts = indicator.value.split('.')
       if domain_parts.size >= 2
-        base_domain = domain_parts[-2..-1].join(".")
-        similar_assets = Asset.where("identifier LIKE ?", "%.#{base_domain}")
+        base_domain = domain_parts[-2..-1].join('.')
+        similar_assets = Asset.where('identifier LIKE ?', "%.#{base_domain}")
         domain_targets = Target.where(id: similar_assets.select(:target_id))
 
         targets = (targets + domain_targets).uniq
       end
-    when "file_hash"
+    when 'file_hash'
       # Find targets with this file hash in their assets
       targets = Target.joins(:assets).where(assets: { identifier: indicator.value })
     else
@@ -218,9 +218,7 @@ private
     end
 
     # If no specific targets found, return high-value targets for general monitoring
-    if targets.empty?
-      targets = Target.where("risk_score > ?", 0.7).limit(10)
-    end
+    targets = Target.where('risk_score > ?', 0.7).limit(10) if targets.empty?
 
     targets
   end

@@ -1,5 +1,5 @@
 class Ingestion::Feeds
-  def initialize(feeds_directory = Rails.root.join("db", "feeds.d"))
+  def initialize(feeds_directory = Rails.root.join('db/feeds.d'))
     @feeds_directory = feeds_directory
   end
 
@@ -13,7 +13,7 @@ class Ingestion::Feeds
     }
 
     feed_configs.each do |feed_config|
-      puts "Ingesting feed #{feed_config["feed_name"]}..."
+      puts "Ingesting feed #{feed_config['feed_name']}..."
       begin
         result = ingest_feed(feed_config)
         puts "Created: #{result[:created]}, Updated: #{result[:updated]}"
@@ -24,7 +24,7 @@ class Ingestion::Feeds
         results[:indicators_updated] += result[:updated]
       rescue StandardError => e
         puts e.message
-        Rails.logger.error("Error ingesting feed #{feed_config["feed_name"]}: #{e.message}")
+        Rails.logger.error("Error ingesting feed #{feed_config['feed_name']}: #{e.message}")
         results[:failed] += 1
       end
     end
@@ -40,9 +40,9 @@ class Ingestion::Feeds
     result = { created: 0, updated: 0 }
 
     # Find or create the source
-    source = Source.find_or_create_by(name: feed_config["feed_name"]) do |s|
-      s.source_type = feed_config["feed_type"]
-      s.url = feed_config["feed_url"]
+    source = Source.find_or_create_by(name: feed_config['feed_name']) do |s|
+      s.source_type = feed_config['feed_type']
+      s.url = feed_config['feed_url']
       s.reliability = 70 # Default reliability score
       s.last_update = Time.now
     end
@@ -66,6 +66,7 @@ class Ingestion::Feeds
         result[:created] += 1
       else
         indicator.last_seen = Time.now
+        indicator.analysed = false
         indicator.save
         result[:updated] += 1
       end
@@ -76,18 +77,16 @@ class Ingestion::Feeds
 
   private
 
-    def load_feed_configs
-      configs = []
+  def load_feed_configs
+    configs = []
 
-      Dir.glob(File.join(@feeds_directory, "*.json")).each do |file|
-        begin
-          json_data = JSON.parse(File.read(file))
-          configs += json_data["feeds"] if json_data["feeds"].is_a?(Array)
-        rescue JSON::ParserError => e
-          Rails.logger.error("Error parsing feed config file #{file}: #{e.message}")
-        end
-      end
-
-      configs
+    Dir.glob(File.join(@feeds_directory, '*.json')).each do |file|
+      json_data = JSON.parse(File.read(file))
+      configs += json_data['feeds'] if json_data['feeds'].is_a?(Array)
+    rescue JSON::ParserError => e
+      Rails.logger.error("Error parsing feed config file #{file}: #{e.message}")
     end
+
+    configs
+  end
 end

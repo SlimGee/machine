@@ -1,6 +1,6 @@
-inherit_gem:
-  rubocop-rails_config:
-    - config/rails.yml
-
+plugins: rubocop-rails
 AllCops:
   TargetRubyVersion: 3.3.6
+
+Metrics/MethodLength:
+  Enabled: false

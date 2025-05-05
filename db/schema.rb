@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_01_141900) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_04_112008) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -134,6 +134,50 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_01_141900) do
     t.index ["name"], name: "index_malicious_domains_on_name", unique: true
   end
 
+  create_table "malware_events", force: :cascade do |t|
+    t.bigint "malware_id", null: false
+    t.bigint "event_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_malware_events_on_event_id"
+    t.index ["malware_id"], name: "index_malware_events_on_malware_id"
+  end
+
+  create_table "malware_indicators", force: :cascade do |t|
+    t.bigint "indicator_id", null: false
+    t.bigint "malware_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["indicator_id"], name: "index_malware_indicators_on_indicator_id"
+    t.index ["malware_id"], name: "index_malware_indicators_on_malware_id"
+  end
+
+  create_table "malware_malicious_domains", force: :cascade do |t|
+    t.bigint "malicious_domain_id", null: false
+    t.bigint "malware_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["malicious_domain_id"], name: "index_malware_malicious_domains_on_malicious_domain_id"
+    t.index ["malware_id"], name: "index_malware_malicious_domains_on_malware_id"
+  end
+
+  create_table "malware_threat_actors", force: :cascade do |t|
+    t.bigint "malware_id", null: false
+    t.bigint "threat_actor_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["malware_id"], name: "index_malware_threat_actors_on_malware_id"
+    t.index ["threat_actor_id"], name: "index_malware_threat_actors_on_threat_actor_id"
+  end
+
+  create_table "malwares", force: :cascade do |t|
+    t.string "name"
+    t.string "malware_id"
+    t.string "target"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "predictions", force: :cascade do |t|
     t.bigint "threat_actor_id", null: false
     t.bigint "target_id", null: false
@@ -244,6 +288,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_01_141900) do
   add_foreign_key "event_threat_actors", "threat_actors"
   add_foreign_key "events", "tactics"
   add_foreign_key "indicators", "sources"
+  add_foreign_key "malware_events", "events"
+  add_foreign_key "malware_events", "malwares"
+  add_foreign_key "malware_indicators", "indicators"
+  add_foreign_key "malware_indicators", "malwares"
+  add_foreign_key "malware_malicious_domains", "malicious_domains"
+  add_foreign_key "malware_malicious_domains", "malwares"
+  add_foreign_key "malware_threat_actors", "malwares"
+  add_foreign_key "malware_threat_actors", "threat_actors"
   add_foreign_key "predictions", "targets"
   add_foreign_key "predictions", "techniques"
   add_foreign_key "predictions", "threat_actors"

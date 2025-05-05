@@ -42,8 +42,6 @@ class Analysis::PatternMatcher
           pulse.attack_ids.any?
         end
 
-        puts ip_data.to_json
-
         pulses = ip_data[:general].pulse_info.pulses
         threat_actors = pulses.filter_map { |pulse| pulse.adversary if pulse.adversary.present? }.uniq.join(", ")
 
@@ -148,8 +146,8 @@ class Analysis::PatternMatcher
             }
           end
         end
-    #  rescue Faraday::TimeoutError
-     #   retry
+        #  rescue Faraday::TimeoutError
+        #   retry
       end
 
       matches
@@ -225,7 +223,38 @@ class Analysis::PatternMatcher
     def self.match_url(indicator)
       matches = []
       url = indicator.value
+      return matches unless valid_url?(url)
 
+      otx = OTX::URL.new(Rails.application.credentials.dig(:otx, :key))
+
+      file_hashes = otx.get_url_list(url).filter_map do |url_instance|
+        url_instance.result["urlworker"]["sha256"] if url_instance.result.present? && url_instance.result["urlworker"]["has_file_analysis"]
+      end
+
+      file_analysis = []
+
+      if file_hashes.any?
+        otx_file = OTX::File.new(Rails.application.credentials.dig(:otx, :key))
+        file_hashes.each do |file_hash|
+          file_analysis << otx_file.get_general(file_hash)
+        end
+      end
+
+      pulses = file_analysis.map { |general| general.pulse_info.pulses }.flatten.uniq
+
+
+      threat_actors = pulses.filter_map { |pulse| pulse.adversary if pulse.adversary.present? }.uniq.join(", ")
+      malware_families = pulses.filter_map do |pulse|
+        pulse.malware_families if pulse.malware_families.any?
+      end
+
+      mitre_ids = pulses.filter_map do |pulse|
+          pulse.attack_ids.map do |attack_id|
+            attack_id["id"]
+          end if pulse.attack_ids.any?
+        end
+
+      tactic_ids = Tactic.where(mitre_id: mitre_ids.flatten.uniq).pluck(:id)
 
       domain = extract_domain_from_url(url)
 
@@ -235,29 +264,27 @@ class Analysis::PatternMatcher
           confidence: 8.0,
           severity_weight: 0.7,
           event_type: "malicious_domain",
-          mitre_tactic_id: "TA0001", # Initial Access
-          threat_actor: nil
+          tactic_ids: tactic_ids,
+          threat_actor: threat_actors.presence || "Unknown",
+          malware_families: malware_families
         }
       end
 
       # Check for phishing URLs
       if url.match?(/login|account|secure|update|verify/)
-        # Parse domain from URL
-        domain = extract_domain_from_url(url)
-
         # Check if this is a lookalike domain for a high-value target
         lookalike_target = check_typosquatting(domain)
 
         if lookalike_target
-
-          tactic = Tactic.find_by(mitre_id: "T1566")
           matches << {
             pattern_type: "phishing_url",
             confidence: 0.8,
             severity_weight: 0.8,
             event_type: "phishing",
-            tactic_id: tactic.id,
-            mitre_tactic_id: tactic.mitre_id,
+            tactic_ids: tactic_ids,
+
+          malware_families: malware_families,
+            threat_actor: threat_actors.presence || "Unknown",
             context: { target_domain: lookalike_target }
           }
         end
@@ -265,18 +292,27 @@ class Analysis::PatternMatcher
 
       # Check for exploit kit URLs
       if url.match?(/\.js$|eval\(|document\.write\(|unescape\(|fromCharCode/)
-        tactic = Tactic.find_by(mitre_id: "T1189")
         matches << {
           pattern_type: "exploit_kit_url",
           confidence: 0.7,
           severity_weight: 0.8,
           event_type: "exploit_attempt",
-          mitre_tactic_id: tactic.mitre_id,
-          tactic_id: tactic.id
+          tactic_ids: tactic_ids,
+          threat_actor: threat_actors.presence || "Unknown",
+          malware_families: malware_families
         }
       end
 
 
+      matches << {
+        pattern_type: "malicious_link",
+        confidence: 0.7,
+        severity_weight: 0.8,
+        event_type: "malicous_link",
+        tactic_ids: tactic_ids,
+        threat_actor: threat_actors.presence || "Unknown",
+        malware_families: malware_families
+      }
 
       matches
     end
@@ -385,8 +421,13 @@ class Analysis::PatternMatcher
 
     def self.levenshtein_distance(s, t)
       return 0 if s.blank?
-      puts "s: #{s}"
-      puts "t: #{t}"
       Text::Levenshtein.distance(s, t)
     end
+
+    def self.valid_url?(input)
+      URI.parse(input)
+      true
+    rescue URI::InvalidURIError
+      false
+      end
 end

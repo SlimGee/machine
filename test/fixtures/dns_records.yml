@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  domain: MyString
+  record_type: MyString
+  resolved_at: 2025-05-07 22:25:20
+  dns: one
+
+two:
+  domain: MyString
+  record_type: MyString
+  resolved_at: 2025-05-07 22:25:20
+  dns: two

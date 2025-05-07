@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  resolved_at: 2025-05-07 22:25:37
+  dns: one
+
+two:
+  resolved_at: 2025-05-07 22:25:37
+  dns: two

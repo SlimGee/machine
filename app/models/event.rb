@@ -22,7 +22,7 @@ class Event < ApplicationRecord
     find_each do |record|
       record.upsert_to_vectorsearch
       # handle rate limiting to mistral ai
-      sleep(5)
+      sleep(1)
     end
   end
 

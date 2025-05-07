@@ -1,0 +1,41 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  network_handle: MyString
+  network_name: MyString
+  network_created: 2025-05-07 22:13:02
+  network_updated: 2025-05-07 22:13:02
+  network_allocation_type: MyString
+  organization_handle: MyString
+  organization_name: MyString
+  organization_street: MyString
+  organization_city: MyString
+  organization_state: MyString
+  organization_postal_code: MyString
+  organization_country: MyString
+  abuse_contact_handle: MyString
+  abuse_contact_name: MyString
+  abuse_contact_email: MyString
+  admin_contact_handle: MyString
+  admin_contact_name: MyString
+  admin_contact_email: MyString
+
+two:
+  network_handle: MyString
+  network_name: MyString
+  network_created: 2025-05-07 22:13:02
+  network_updated: 2025-05-07 22:13:02
+  network_allocation_type: MyString
+  organization_handle: MyString
+  organization_name: MyString
+  organization_street: MyString
+  organization_city: MyString
+  organization_state: MyString
+  organization_postal_code: MyString
+  organization_country: MyString
+  abuse_contact_handle: MyString
+  abuse_contact_name: MyString
+  abuse_contact_email: MyString
+  admin_contact_handle: MyString
+  admin_contact_name: MyString
+  admin_contact_email: MyString

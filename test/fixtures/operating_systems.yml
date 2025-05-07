@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  uniform_resource_identifier: MyString
+  part: MyString
+  vendor: MyString
+  product: MyString
+  family: MyString
+
+two:
+  uniform_resource_identifier: MyString
+  part: MyString
+  vendor: MyString
+  product: MyString
+  family: MyString

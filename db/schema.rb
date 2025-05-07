@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_07_163155) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_07_203742) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -72,6 +72,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_07_163155) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "autonomous_systems", force: :cascade do |t|
+    t.integer "asn"
+    t.string "description"
+    t.string "bgp_prefix"
+    t.string "name"
+    t.string "country_code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "correlations", force: :cascade do |t|
     t.bigint "first_event_id", null: false
     t.bigint "second_event_id", null: false
@@ -83,6 +93,31 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_07_163155) do
     t.vector "embedding"
     t.index ["first_event_id"], name: "index_correlations_on_first_event_id"
     t.index ["second_event_id"], name: "index_correlations_on_second_event_id"
+  end
+
+  create_table "dns", force: :cascade do |t|
+    t.bigint "host_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["host_id"], name: "index_dns_on_host_id"
+  end
+
+  create_table "dns_names", force: :cascade do |t|
+    t.string "name"
+    t.bigint "dns_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["dns_id"], name: "index_dns_names_on_dns_id"
+  end
+
+  create_table "dns_records", force: :cascade do |t|
+    t.string "domain"
+    t.string "record_type"
+    t.datetime "resolved_at"
+    t.bigint "dns_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["dns_id"], name: "index_dns_records_on_dns_id"
   end
 
   create_table "event_indicators", force: :cascade do |t|
@@ -129,6 +164,48 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_07_163155) do
     t.index ["tactic_id"], name: "index_events_on_tactic_id"
   end
 
+  create_table "host_autonomous_systems", force: :cascade do |t|
+    t.bigint "autonomous_system_id", null: false
+    t.bigint "host_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["autonomous_system_id"], name: "index_host_autonomous_systems_on_autonomous_system_id"
+    t.index ["host_id"], name: "index_host_autonomous_systems_on_host_id"
+  end
+
+  create_table "host_locations", force: :cascade do |t|
+    t.bigint "host_id", null: false
+    t.bigint "location_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["host_id"], name: "index_host_locations_on_host_id"
+    t.index ["location_id"], name: "index_host_locations_on_location_id"
+  end
+
+  create_table "host_operating_systems", force: :cascade do |t|
+    t.bigint "operating_system_id", null: false
+    t.bigint "host_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["host_id"], name: "index_host_operating_systems_on_host_id"
+    t.index ["operating_system_id"], name: "index_host_operating_systems_on_operating_system_id"
+  end
+
+  create_table "host_whois_records", force: :cascade do |t|
+    t.bigint "host_id", null: false
+    t.bigint "whois_record_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["host_id"], name: "index_host_whois_records_on_host_id"
+    t.index ["whois_record_id"], name: "index_host_whois_records_on_whois_record_id"
+  end
+
+  create_table "hosts", force: :cascade do |t|
+    t.string "ip"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "indicators", force: :cascade do |t|
     t.string "indicator_type"
     t.text "value"
@@ -141,6 +218,20 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_07_163155) do
     t.boolean "analysed", default: false, null: false
     t.vector "embedding"
     t.index ["source_id"], name: "index_indicators_on_source_id"
+  end
+
+  create_table "locations", force: :cascade do |t|
+    t.string "continent"
+    t.string "country"
+    t.string "country_code"
+    t.string "city"
+    t.string "postal_code"
+    t.string "timezone"
+    t.string "province"
+    t.decimal "latitude"
+    t.decimal "longitude"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "malicious_domains", force: :cascade do |t|
@@ -211,6 +302,24 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_07_163155) do
     t.index ["assistant_id"], name: "index_messages_on_assistant_id"
   end
 
+  create_table "network_cidrs", force: :cascade do |t|
+    t.string "cidr"
+    t.bigint "whois_record_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["whois_record_id"], name: "index_network_cidrs_on_whois_record_id"
+  end
+
+  create_table "operating_systems", force: :cascade do |t|
+    t.string "uniform_resource_identifier"
+    t.string "part"
+    t.string "vendor"
+    t.string "product"
+    t.string "family"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "predictions", force: :cascade do |t|
     t.bigint "threat_actor_id", null: false
     t.bigint "target_id", null: false
@@ -224,6 +333,45 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_07_163155) do
     t.index ["target_id"], name: "index_predictions_on_target_id"
     t.index ["technique_id"], name: "index_predictions_on_technique_id"
     t.index ["threat_actor_id"], name: "index_predictions_on_threat_actor_id"
+  end
+
+  create_table "reverse_dns", force: :cascade do |t|
+    t.datetime "resolved_at"
+    t.bigint "dns_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["dns_id"], name: "index_reverse_dns_on_dns_id"
+  end
+
+  create_table "reverse_dns_names", force: :cascade do |t|
+    t.string "name"
+    t.bigint "reverse_dns_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["reverse_dns_id"], name: "index_reverse_dns_names_on_reverse_dns_id"
+  end
+
+  create_table "services", force: :cascade do |t|
+    t.text "banner"
+    t.text "banner_hashes"
+    t.text "banner_hex"
+    t.text "extended_service_name"
+    t.integer "port"
+    t.string "name"
+    t.bigint "host_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["host_id"], name: "index_services_on_host_id"
+  end
+
+  create_table "softwares", force: :cascade do |t|
+    t.bigint "service_id", null: false
+    t.string "product"
+    t.string "vendor"
+    t.string "version"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["service_id"], name: "index_softwares_on_service_id"
   end
 
   create_table "sources", force: :cascade do |t|
@@ -316,11 +464,37 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_07_163155) do
     t.index ["asset_id"], name: "index_vulnerabilities_on_asset_id"
   end
 
+  create_table "whois_records", force: :cascade do |t|
+    t.string "network_handle"
+    t.string "network_name"
+    t.datetime "network_created"
+    t.datetime "network_updated"
+    t.string "network_allocation_type"
+    t.string "organization_handle"
+    t.string "organization_name"
+    t.string "organization_street"
+    t.string "organization_city"
+    t.string "organization_state"
+    t.string "organization_postal_code"
+    t.string "organization_country"
+    t.string "abuse_contact_handle"
+    t.string "abuse_contact_name"
+    t.string "abuse_contact_email"
+    t.string "admin_contact_handle"
+    t.string "admin_contact_name"
+    t.string "admin_contact_email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "assets", "targets"
   add_foreign_key "correlations", "events", column: "first_event_id"
   add_foreign_key "correlations", "events", column: "second_event_id"
+  add_foreign_key "dns", "hosts"
+  add_foreign_key "dns_names", "dns", column: "dns_id"
+  add_foreign_key "dns_records", "dns", column: "dns_id"
   add_foreign_key "event_indicators", "events"
   add_foreign_key "event_indicators", "indicators"
   add_foreign_key "event_tactics", "events"
@@ -328,6 +502,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_07_163155) do
   add_foreign_key "event_threat_actors", "events"
   add_foreign_key "event_threat_actors", "threat_actors"
   add_foreign_key "events", "tactics"
+  add_foreign_key "host_autonomous_systems", "autonomous_systems"
+  add_foreign_key "host_autonomous_systems", "hosts"
+  add_foreign_key "host_locations", "hosts"
+  add_foreign_key "host_locations", "locations"
+  add_foreign_key "host_operating_systems", "hosts"
+  add_foreign_key "host_operating_systems", "operating_systems"
+  add_foreign_key "host_whois_records", "hosts"
+  add_foreign_key "host_whois_records", "whois_records"
   add_foreign_key "indicators", "sources"
   add_foreign_key "malware_events", "events"
   add_foreign_key "malware_events", "malwares"
@@ -338,9 +520,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_07_163155) do
   add_foreign_key "malware_threat_actors", "malwares"
   add_foreign_key "malware_threat_actors", "threat_actors"
   add_foreign_key "messages", "assistants"
+  add_foreign_key "network_cidrs", "whois_records"
   add_foreign_key "predictions", "targets"
   add_foreign_key "predictions", "techniques"
   add_foreign_key "predictions", "threat_actors"
+  add_foreign_key "reverse_dns", "dns", column: "dns_id"
+  add_foreign_key "reverse_dns_names", "reverse_dns", column: "reverse_dns_id"
+  add_foreign_key "services", "hosts"
+  add_foreign_key "softwares", "services"
   add_foreign_key "techniques", "tactics"
   add_foreign_key "threat_actor_indicators", "indicators"
   add_foreign_key "threat_actor_indicators", "threat_actors"

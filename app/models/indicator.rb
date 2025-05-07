@@ -1,4 +1,8 @@
 class Indicator < ApplicationRecord
+  vectorsearch
+
+  after_save :upsert_to_vectorsearch
+
   belongs_to :source
   has_many :event_indicators
   has_many :events, through: :event_indicators

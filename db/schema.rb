@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_04_112008) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_07_161403) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+  enable_extension "vector"
 
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
@@ -59,6 +60,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_04_112008) do
     t.integer "criticality"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.vector "embedding"
     t.index ["target_id"], name: "index_assets_on_target_id"
   end
 
@@ -70,6 +72,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_04_112008) do
     t.datetime "discovered_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.vector "embedding"
     t.index ["first_event_id"], name: "index_correlations_on_first_event_id"
     t.index ["second_event_id"], name: "index_correlations_on_second_event_id"
   end
@@ -80,6 +83,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_04_112008) do
     t.text "context"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.vector "embedding"
     t.index ["event_id"], name: "index_event_indicators_on_event_id"
     t.index ["indicator_id"], name: "index_event_indicators_on_indicator_id"
   end
@@ -89,6 +93,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_04_112008) do
     t.bigint "tactic_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.vector "embedding"
     t.index ["event_id"], name: "index_event_tactics_on_event_id"
     t.index ["tactic_id"], name: "index_event_tactics_on_tactic_id"
   end
@@ -99,6 +104,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_04_112008) do
     t.float "confidence"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.vector "embedding"
     t.index ["event_id"], name: "index_event_threat_actors_on_event_id"
     t.index ["threat_actor_id"], name: "index_event_threat_actors_on_threat_actor_id"
   end
@@ -111,6 +117,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_04_112008) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "tactic_id"
+    t.vector "embedding"
     t.index ["tactic_id"], name: "index_events_on_tactic_id"
   end
 
@@ -124,6 +131,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_04_112008) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "analysed", default: false, null: false
+    t.vector "embedding"
     t.index ["source_id"], name: "index_indicators_on_source_id"
   end
 
@@ -131,6 +139,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_04_112008) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.vector "embedding"
     t.index ["name"], name: "index_malicious_domains_on_name", unique: true
   end
 
@@ -139,6 +148,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_04_112008) do
     t.bigint "event_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.vector "embedding"
     t.index ["event_id"], name: "index_malware_events_on_event_id"
     t.index ["malware_id"], name: "index_malware_events_on_malware_id"
   end
@@ -148,6 +158,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_04_112008) do
     t.bigint "malware_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.vector "embedding"
     t.index ["indicator_id"], name: "index_malware_indicators_on_indicator_id"
     t.index ["malware_id"], name: "index_malware_indicators_on_malware_id"
   end
@@ -157,6 +168,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_04_112008) do
     t.bigint "malware_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.vector "embedding"
     t.index ["malicious_domain_id"], name: "index_malware_malicious_domains_on_malicious_domain_id"
     t.index ["malware_id"], name: "index_malware_malicious_domains_on_malware_id"
   end
@@ -166,6 +178,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_04_112008) do
     t.bigint "threat_actor_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.vector "embedding"
     t.index ["malware_id"], name: "index_malware_threat_actors_on_malware_id"
     t.index ["threat_actor_id"], name: "index_malware_threat_actors_on_threat_actor_id"
   end
@@ -176,6 +189,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_04_112008) do
     t.string "target"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.vector "embedding"
   end
 
   create_table "predictions", force: :cascade do |t|
@@ -187,6 +201,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_04_112008) do
     t.datetime "predictioni_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.vector "embedding"
     t.index ["target_id"], name: "index_predictions_on_target_id"
     t.index ["technique_id"], name: "index_predictions_on_technique_id"
     t.index ["threat_actor_id"], name: "index_predictions_on_threat_actor_id"
@@ -200,6 +215,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_04_112008) do
     t.datetime "last_update"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.vector "embedding"
   end
 
   create_table "tactics", force: :cascade do |t|
@@ -208,6 +224,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_04_112008) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.vector "embedding"
   end
 
   create_table "targets", force: :cascade do |t|
@@ -216,6 +233,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_04_112008) do
     t.float "risk_score"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.vector "embedding"
   end
 
   create_table "techniques", force: :cascade do |t|
@@ -225,6 +243,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_04_112008) do
     t.bigint "tactic_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.vector "embedding"
     t.index ["mitre_id"], name: "index_techniques_on_mitre_id", unique: true
     t.index ["tactic_id"], name: "index_techniques_on_tactic_id"
   end
@@ -234,6 +253,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_04_112008) do
     t.bigint "indicator_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.vector "embedding"
     t.index ["indicator_id"], name: "index_threat_actor_indicators_on_indicator_id"
     t.index ["threat_actor_id"], name: "index_threat_actor_indicators_on_threat_actor_id"
   end
@@ -246,6 +266,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_04_112008) do
     t.integer "confidence"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.vector "embedding"
   end
 
   create_table "users", force: :cascade do |t|
@@ -272,6 +293,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_04_112008) do
     t.boolean "exploitable", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.vector "embedding"
     t.index ["asset_id"], name: "index_vulnerabilities_on_asset_id"
   end
 

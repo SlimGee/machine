@@ -1,4 +1,8 @@
 class Target < ApplicationRecord
+  vectorsearch
+
+  after_save :upsert_to_vectorsearch
+
   has_many :predictions
   has_many :assets
 

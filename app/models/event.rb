@@ -1,4 +1,8 @@
 class Event < ApplicationRecord
+  vectorsearch
+
+  after_save :upsert_to_vectorsearch
+
   has_many :event_indicators, dependent: :destroy
   has_many :indicators, through: :event_indicators
 

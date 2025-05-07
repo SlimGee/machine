@@ -1,4 +1,8 @@
 class Asset < ApplicationRecord
+  vectorsearch
+
+  after_save :upsert_to_vectorsearch
+
   belongs_to :target
   has_many :vulnerabilities
 

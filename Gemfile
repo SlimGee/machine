@@ -104,3 +104,5 @@ gem 'neighbor'
 gem 'ruby-openai'
 
 gem 'mistral-ai', '~> 1.2'
+
+gem "active_model_serializers", "~> 0.10.15"

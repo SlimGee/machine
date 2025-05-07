@@ -5,4 +5,12 @@ class ThreatActorIndicator < ApplicationRecord
 
   belongs_to :threat_actor
   belongs_to :indicator
+
+  def self.embed!
+    find_each do |record|
+      record.upsert_to_vectorsearch
+      # handle rate limiting to mistral ai
+      sleep(5)
+    end
+  end
 end

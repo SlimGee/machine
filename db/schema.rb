@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_07_161403) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_07_163155) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -62,6 +62,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_07_161403) do
     t.datetime "updated_at", null: false
     t.vector "embedding"
     t.index ["target_id"], name: "index_assets_on_target_id"
+  end
+
+  create_table "assistants", force: :cascade do |t|
+    t.string "instructions"
+    t.string "tool_choice"
+    t.json "tools"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "correlations", force: :cascade do |t|
@@ -192,6 +200,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_07_161403) do
     t.vector "embedding"
   end
 
+  create_table "messages", force: :cascade do |t|
+    t.bigint "assistant_id"
+    t.string "role"
+    t.text "content"
+    t.json "tool_calls"
+    t.string "tool_call_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["assistant_id"], name: "index_messages_on_assistant_id"
+  end
+
   create_table "predictions", force: :cascade do |t|
     t.bigint "threat_actor_id", null: false
     t.bigint "target_id", null: false
@@ -318,6 +337,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_07_161403) do
   add_foreign_key "malware_malicious_domains", "malwares"
   add_foreign_key "malware_threat_actors", "malwares"
   add_foreign_key "malware_threat_actors", "threat_actors"
+  add_foreign_key "messages", "assistants"
   add_foreign_key "predictions", "targets"
   add_foreign_key "predictions", "techniques"
   add_foreign_key "predictions", "threat_actors"

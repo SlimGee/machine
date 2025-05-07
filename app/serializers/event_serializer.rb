@@ -1,7 +1,7 @@
-class Event < ApplicationRecord
-  vectorsearch
+# frozen_string_literal: true
 
-  after_save :upsert_to_vectorsearch
+class EventSerializer < ActiveModel::Serializer
+  attributes :id, :event_type, :timestamp, :description, :severity, :created_at, :updated_at, :tactic_id
 
   has_many :event_indicators, dependent: :destroy
   has_many :indicators, through: :event_indicators
@@ -14,19 +14,4 @@ class Event < ApplicationRecord
 
   has_many :event_tactics
   has_many :tactics, through: :event_tactics, dependent: :destroy
-
-  validates :event_type, :timestamp, presence: true
-  validates :severity, inclusion: { in: %w[low medium high critical] }, allow_nil: true
-
-  def self.embed!
-    find_each do |record|
-      record.upsert_to_vectorsearch
-      # handle rate limiting to mistral ai
-      sleep(5)
-    end
-  end
-
-  def as_vector
-    ActiveModelSerializers::SerializableResource.new(self, serializer: EventSerializer).to_json
-  end
 end

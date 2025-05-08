@@ -32,6 +32,8 @@ class ImportAssetsJob < ApplicationJob
           host.dns.dns_records.find_or_create_by(domain: hostname)
         end
         sleep 2
+      rescue StandardError
+        next
       end
     end
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_07_203742) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_07_232411) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -191,6 +191,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_07_203742) do
     t.index ["operating_system_id"], name: "index_host_operating_systems_on_operating_system_id"
   end
 
+  create_table "host_vulnerabilities", force: :cascade do |t|
+    t.bigint "host_id", null: false
+    t.bigint "vulnerability_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["host_id"], name: "index_host_vulnerabilities_on_host_id"
+    t.index ["vulnerability_id"], name: "index_host_vulnerabilities_on_vulnerability_id"
+  end
+
   create_table "host_whois_records", force: :cascade do |t|
     t.bigint "host_id", null: false
     t.bigint "whois_record_id", null: false
@@ -204,6 +213,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_07_203742) do
     t.string "ip"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.vector "embedding"
   end
 
   create_table "indicators", force: :cascade do |t|
@@ -453,15 +463,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_07_203742) do
   end
 
   create_table "vulnerabilities", force: :cascade do |t|
-    t.bigint "asset_id", null: false
     t.text "cve_id"
     t.text "description"
     t.float "cvss_score"
-    t.boolean "exploitable", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.vector "embedding"
-    t.index ["asset_id"], name: "index_vulnerabilities_on_asset_id"
+    t.decimal "exploitability_score"
   end
 
   create_table "whois_records", force: :cascade do |t|
@@ -508,6 +516,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_07_203742) do
   add_foreign_key "host_locations", "locations"
   add_foreign_key "host_operating_systems", "hosts"
   add_foreign_key "host_operating_systems", "operating_systems"
+  add_foreign_key "host_vulnerabilities", "hosts"
+  add_foreign_key "host_vulnerabilities", "vulnerabilities"
   add_foreign_key "host_whois_records", "hosts"
   add_foreign_key "host_whois_records", "whois_records"
   add_foreign_key "indicators", "sources"
@@ -531,5 +541,4 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_07_203742) do
   add_foreign_key "techniques", "tactics"
   add_foreign_key "threat_actor_indicators", "indicators"
   add_foreign_key "threat_actor_indicators", "threat_actors"
-  add_foreign_key "vulnerabilities", "assets"
 end

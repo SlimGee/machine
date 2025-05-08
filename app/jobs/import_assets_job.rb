@@ -31,7 +31,7 @@ class ImportAssetsJob < ApplicationJob
           host.create_dns if host.dns.nil?
           host.dns.dns_records.find_or_create_by(domain: hostname)
         end
-        sleep 1
+        sleep 2
       end
     end
   end

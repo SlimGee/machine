@@ -53,6 +53,13 @@
           </li>
 
           <li>
+            <%= link_to app_malwares_path, class: class_names('menu-item group', 'active': current_page?(app_malwares_path))  do %>
+              <%= icon "code", class: "w-5 h-5 text-primary-500" %>
+              Malware
+            <% end %>
+          </li>
+
+          <li>
             <%= link_to app_predictions_path, class: class_names('menu-item group', 'active': current_page?(app_predictions_path))  do %>
               <%= icon "trending-up-down", class: "w-5 h-5 text-primary-500" %>
               Predictions

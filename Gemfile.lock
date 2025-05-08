@@ -490,6 +490,15 @@ GEM
       rubocop-packaging (~> 0.6)
       rubocop-performance (~> 1.24)
       rubocop-rails (~> 2.30)
+    rubocop-rake (0.7.1)
+      lint_roller (~> 1.1)
+      rubocop (>= 1.72.1)
+    rubocop-sequel (0.4.1)
+      lint_roller (~> 1.1)
+      rubocop (>= 1.72.1, < 2)
+    rubocop-thread_safety (0.7.2)
+      lint_roller (~> 1.1)
+      rubocop (~> 1.72, >= 1.72.1)
     ruby-anthropic (0.4.2)
       event_stream_parser (>= 0.3.0, < 2.0.0)
       faraday (>= 1)
@@ -637,6 +646,9 @@ DEPENDENCIES
   rover-df (~> 0.4.1)
   rubocop-rails-omakase
   rubocop-rails_config
+  rubocop-rake (~> 0.7.1)
+  rubocop-sequel (~> 0.4.1)
+  rubocop-thread_safety (~> 0.7.2)
   ruby-anthropic (~> 0.4.2)
   ruby-openai
   selenium-webdriver

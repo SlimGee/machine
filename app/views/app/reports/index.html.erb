@@ -7,10 +7,67 @@
       dark:bg-white/[0.03]
     "
   >
-    <div class="flex justify-between items-center py-4 px-5 sm:py-5 sm:px-6">
+    <div
+      class="flex justify-between items-center py-4 px-5 sm:py-5 sm:px-6"
+      data-controller="railsui-modal"
+    >
       <h3 class="text-base font-medium text-gray-800 dark:text-white/90">
         Intelligence Reports
       </h3>
+
+      <button
+        type="button"
+        data-action="click->railsui-modal#open"
+        class="btn btn-primary"
+        tabindex="0"
+      >
+        Generate New Report
+      </button>
+
+      <div
+        aria-labelledby="modal-title"
+        aria-modal="true"
+        data-railsui-modal-target="container"
+        data-action="keyup@window->railsui-modal#closeWithEsc"
+        class="hidden overflow-y-auto fixed inset-0 z-50"
+      >
+        <div class="flex relative justify-center items-center w-full h-screen">
+          <div
+            data-railsui-modal-target="content"
+            data-transition-enter-active="transition ease-out duration-300"
+            data-transition-enter-from="transform opacity-0 scale-95"
+            data-transition-enter-to="transform opacity-100 scale-100"
+            data-transition-leave-active="transition ease-in duration-300"
+            data-transition-leave-from="transform opacity-100 scale-100"
+            data-transition-leave-to="transform opacity-0 scale-95"
+            class="
+              hidden p-8 m-1 mx-auto max-w-lg max-w-xl bg-white rounded-xl shadow-xl
+              origin-bottom dark:bg-neutral-700 dark:text-neutral-200
+            "
+          >
+            <h3
+              id="modal-title"
+              class="
+                text-2xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100
+              "
+            >
+              Generate New Report
+            </h3>
+
+            <div class="mt-2 mb-6 prose prose-neutral dark:prose-invert">
+              <p>
+                Generete a new report by selecting the following options.
+              </p>
+            </div>
+
+            <div>
+              <%= turbo_frame_tag "new_report", src: new_app_report_path %>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 

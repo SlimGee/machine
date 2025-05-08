@@ -5,3 +5,8 @@ import "./controllers"
 import "trix"
 import "@rails/actiontext"
 import "chartkick/chart.js"
+
+
+Turbo.StreamActions.redirect = function () {
+  Turbo.visit(this.target);
+};

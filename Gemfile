@@ -122,3 +122,8 @@ gem "ruby-anthropic", "~> 0.4.2"
 gem "anthropic", "~> 0.4.1"
 
 gem "kramdown", "~> 2.5"
+
+gem "rubocop-rake", "~> 0.7.1"
+
+gem "rubocop-sequel", "~> 0.4.1"
+gem "rubocop-thread_safety", "~> 0.7.2"

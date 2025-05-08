@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   namespace :app do
+    resources :malwares
     resources :reports
     resources :hosts
     resources :predictions

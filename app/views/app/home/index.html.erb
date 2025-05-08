@@ -85,3 +85,27 @@
   </div>
   <!-- End Card -->
 </div>
+
+<div class="grid gap-4 mt-12 sm:gap-6 lg:grid-cols-1">
+  <!-- Card --> <!-- End Card --> <!-- Card -->
+  <div
+    class="
+      flex flex-col p-4 bg-white border border-gray-200 md:p-5 min-h-102.5
+      dark:bg-neutral-800 dark:border-neutral-700
+    "
+  >
+    <!-- Header -->
+    <div class="flex flex-wrap gap-2 justify-between items-center">
+      <div>
+        <h2 class="text-sm text-gray-500 dark:text-neutral-500">
+          Prediction trends
+        </h2>
+        <p class="text-xl font-medium text-gray-800 sm:text-2xl dark:text-neutral-200">
+        </p>
+      </div>
+      <%= line_chart Prediction.group_by_day(:created_at).count %>
+    </div>
+    <!-- End Header -->
+  </div>
+  <!-- End Card -->
+</div>

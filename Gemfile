@@ -112,3 +112,7 @@ gem "shodanz", "~> 2.0"
 gem 'netaddr', '~> 2.0'
 
 gem "mission_control-jobs", "~> 1.0"
+
+gem "chartkick", "~> 5.1"
+
+gem "groupdate", "~> 6.6"

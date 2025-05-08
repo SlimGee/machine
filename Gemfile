@@ -70,7 +70,7 @@ gem 'faraday', '~> 2.12'
 
 gem 'tailwindcss', '~> 0.1.1'
 
-gem 'tailwindcss-ruby', '~> 4.0'
+gem 'tailwindcss-ruby', '~> 4.1'
 
 gem 'railsui', '~> 3.1'
 

@@ -18,9 +18,9 @@ class Analysis::Engine
           run_predictions_for_targets(indicator, threat_actors)
 
           indicator.update(analysed: true)
-          # rescue StandardError => e
-          # puts "Error processing indicator #{indicator.value}: #{e.inspect}"
-          # next
+        rescue StandardError => e
+          puts "Error processing indicator #{indicator.value}: #{e.inspect}"
+          next
         end
       end
     end

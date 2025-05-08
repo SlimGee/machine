@@ -79,6 +79,10 @@ GEM
       uri (>= 0.13.1)
     addressable (2.8.7)
       public_suffix (>= 2.0.2, < 7.0)
+    anthropic (0.4.1)
+      event_stream_parser (>= 0.3.0, < 2.0.0)
+      faraday (>= 1)
+      faraday-multipart (>= 1)
     ast (2.4.3)
     async (2.6.5)
       console (~> 1.10)
@@ -246,6 +250,8 @@ GEM
       activerecord
       kaminari-core (= 1.2.2)
     kaminari-core (1.2.2)
+    kramdown (2.5.1)
+      rexml (>= 3.3.9)
     langchainrb (0.16.1)
       baran (~> 0.1.9)
       json-schema (~> 4)
@@ -484,6 +490,10 @@ GEM
       rubocop-packaging (~> 0.6)
       rubocop-performance (~> 1.24)
       rubocop-rails (~> 2.30)
+    ruby-anthropic (0.4.2)
+      event_stream_parser (>= 0.3.0, < 2.0.0)
+      faraday (>= 1)
+      faraday-multipart (>= 1)
     ruby-openai (8.1.0)
       event_stream_parser (>= 0.3.0, < 2.0.0)
       faraday (>= 1)
@@ -589,6 +599,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_model_serializers (~> 0.10.15)
+  anthropic (~> 0.4.1)
   bootsnap
   brakeman
   capybara
@@ -608,6 +619,7 @@ DEPENDENCIES
   jsbundling-rails
   kamal
   kaminari (~> 1.2)
+  kramdown (~> 2.5)
   langchainrb_rails (~> 0.1.12)
   mission_control-jobs (~> 1.0)
   mistral-ai (~> 1.2)
@@ -625,6 +637,7 @@ DEPENDENCIES
   rover-df (~> 0.4.1)
   rubocop-rails-omakase
   rubocop-rails_config
+  ruby-anthropic (~> 0.4.2)
   ruby-openai
   selenium-webdriver
   shodanz (~> 2.0)

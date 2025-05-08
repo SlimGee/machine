@@ -116,3 +116,9 @@ gem "mission_control-jobs", "~> 1.0"
 gem "chartkick", "~> 5.1"
 
 gem "groupdate", "~> 6.6"
+
+gem "ruby-anthropic", "~> 0.4.2"
+
+gem "anthropic", "~> 0.4.1"
+
+gem "kramdown", "~> 2.5"

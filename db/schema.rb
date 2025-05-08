@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_08_024239) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_08_104915) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -340,6 +340,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_08_024239) do
     t.vector "embedding"
     t.index ["host_id"], name: "index_predictions_on_host_id"
     t.index ["threat_actor_id"], name: "index_predictions_on_threat_actor_id"
+  end
+
+  create_table "reports", force: :cascade do |t|
+    t.datetime "start_time", precision: nil
+    t.datetime "end_time", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "reverse_dns", force: :cascade do |t|

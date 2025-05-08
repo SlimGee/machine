@@ -1,24 +1,31 @@
 class TargetPredictionJob < ApplicationJob
   queue_as :predictions
 
-  def perform(target, model_ids)
-    Rails.logger.info("Running predictions for target: #{target.name}")
+  limits_concurrency to: 1, key: :target_prediction_job
 
-    models = Ml::PredictionModel.where(id: model_ids, status: :active)
-
-    # Run prediction with each model
-    prediction_results = models.map do |model|
-      begin
-        model.predict(target)
-      rescue => e
-        Rails.logger.error("Error predicting with model #{model.name}: #{e.message}")
-        nil
+  def perform(threat_actors)
+    threat_actors.each do |actor|
+      prediction_results = Predict::DefaultPrediction.call(actor)
+      prediction_results.each do |result|
+        create_prediction(actor, result) if should_create_prediction?(result)
       end
-    end.compact
 
-    # Create prediction if warranted
-    if prediction_results.present? && Analysis::Engine.should_create_prediction?(prediction_results)
-      Analysis::Engine.create_prediction(target, prediction_results)
+      sleep(1) # Rate limit to avoid overwhelming the prediction service
     end
+  end
+
+  def should_create_prediction?(prediction_results)
+    prediction_results['confidence'] > 0.5
+  end
+
+  def create_prediction(threat_actor, prediction_results)
+    host = Host.find_by(ip: prediction_results['ip'])
+
+    Prediction.create!(
+      host: host,
+      threat_actor: threat_actor,
+      context: prediction_results['context'],
+      confidence: prediction_results['confidence']
+    )
   end
 end

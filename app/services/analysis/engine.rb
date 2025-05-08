@@ -3,7 +3,7 @@ class Analysis::Engine
     query = Indicator.where('updated_at > ?', 30.days.ago).where(analysed: false)
 
     query.find_in_batches(batch_size: 1000) do |indicators|
-      Parallel.each(indicators, in_threads: 1) do |indicator|
+      Parallel.each(indicators, in_threads: 16) do |indicator|
         ActiveRecord::Base.connection_pool.with_connection do
           matches = find_pattern_matches(indicator)
 
@@ -13,14 +13,14 @@ class Analysis::Engine
 
           malware = update_malware_profile(indicator, matches, event)
 
-          update_threat_actor_profiles(indicator, matches, correlations, event, malware)
+          threat_actors = update_threat_actor_profiles(indicator, matches, correlations, event, malware)
 
-          run_predictions_for_targets(indicator)
+          run_predictions_for_targets(indicator, threat_actors)
 
           indicator.update(analysed: true)
-        rescue StandardError => e
-          puts "Error processing indicator #{indicator.value}: #{e.inspect}"
-          next
+          # rescue StandardError => e
+          # puts "Error processing indicator #{indicator.value}: #{e.inspect}"
+          # next
         end
       end
     end
@@ -66,6 +66,8 @@ class Analysis::Engine
     malware = matches.map { |match| match[:malware_families] }
 
     malware.flatten.map do |family|
+      next if family.blank?
+
       instance = Malware.find_or_create_by(malware_id: family['id']) do |payload|
         payload.name = family['display_name']
         payload.target = family['target']
@@ -99,25 +101,12 @@ class Analysis::Engine
         actor.malware_threat_actors.find_or_create_by(malware: malware_instance)
       end
     end
+
+    threat_actors
   end
 
-  def self.run_predictions_for_targets(indicator)
-    # Identify potentially affected targets based on indicator
-    targets = identify_potential_targets(indicator)
-
-    # Run predictions for each potentially affected target
-    targets.each do |target|
-      # Use active prediction models
-      active_models = MachineLearning::PredictionModel.where(status: :active)
-
-      # For ensemble approach, combine predictions from all models
-      prediction_results = active_models.map do |model|
-        model.predict(target)
-      end
-
-      # Evaluate if prediction warrants creating a formal prediction record
-      create_prediction(target, prediction_results) if should_create_prediction?(prediction_results)
-    end
+  def self.run_predictions_for_targets(_indicator, threat_actors)
+    TargetPredictionJob.perform_later(threat_actors)
   end
 
   def self.determine_event_type(matches)
@@ -158,7 +147,6 @@ class Analysis::Engine
       next if match[:threat_actor].blank?
 
       match[:threat_actor].split(',').each do |actor|
-        puts actor
         threat_actors << ThreatActor.find_or_create_by(name: actor) do |a|
           a.confidence = match[:confidence]
           a.last_seen = Time.current
@@ -178,120 +166,5 @@ class Analysis::Engine
     end
 
     threat_actors.uniq(&:id)
-  end
-
-  def self.identify_potential_targets(indicator)
-    # Identify potential targets based on indicator type and value
-    case indicator.indicator_type
-    when 'ipaddress'
-      # Find targets with assets using this IP
-      targets = Target.joins(:assets).where(assets: { identifier: indicator.value })
-
-      # Also find targets in the same network range
-      ip_network = indicator.value.split('.')[0..2].join('.')
-      similar_assets = Asset.where('identifier LIKE ?', "#{ip_network}.%")
-      network_targets = Target.where(id: similar_assets.select(:target_id))
-
-      targets = (targets + network_targets).uniq
-    when 'domain'
-      # Find targets with this domain in their assets
-      targets = Target.joins(:assets).where(assets: { identifier: indicator.value })
-
-      # Also find targets with similar domains
-      domain_parts = indicator.value.split('.')
-      if domain_parts.size >= 2
-        base_domain = domain_parts[-2..-1].join('.')
-        similar_assets = Asset.where('identifier LIKE ?', "%.#{base_domain}")
-        domain_targets = Target.where(id: similar_assets.select(:target_id))
-
-        targets = (targets + domain_targets).uniq
-      end
-    when 'file_hash'
-      # Find targets with this file hash in their assets
-      targets = Target.joins(:assets).where(assets: { identifier: indicator.value })
-    else
-      # For other indicator types, use a broader approach
-      # For example, check if any targets in the same industry as previously affected targets
-      affected_target_industries = []
-
-      targets = Target.where(industry: affected_target_industries)
-    end
-
-    # If no specific targets found, return high-value targets for general monitoring
-    targets = Target.where('risk_score > ?', 0.7).limit(10) if targets.empty?
-
-    targets
-  end
-
-  def self.should_create_prediction?(prediction_results)
-    # Evaluate prediction results to determine if a formal prediction should be created
-    # Use a consensus approach from multiple models
-
-    # Calculate average risk score
-    avg_risk_score = prediction_results.sum { |result| result[:risk_score] } / prediction_results.size.to_f
-
-    # Only create predictions for significant risk
-    avg_risk_score > 0.5
-  end
-
-  def self.create_prediction(target, prediction_results)
-    # Aggregate prediction results
-    aggregated = aggregate_predictions(prediction_results)
-
-    # Find the most likely threat actor
-    threat_actor = ThreatActor.find_by(name: aggregated[:most_likely_threat_actor])
-    return unless threat_actor # Skip if we can't identify a threat actor
-
-    # Find the most likely technique
-    technique = Technique.find_by(mitre_id: aggregated[:most_likely_technique])
-    return unless technique # Skip if we can't identify a technique
-
-    # Create the prediction record
-    Prediction.create!(
-      threat_actor: threat_actor,
-      target: target,
-      technique: technique,
-      confidence: aggregated[:confidence],
-      estimated_timeframe: aggregated[:estimated_timeframe],
-      prediction_date: Time.current
-    )
-  end
-
-  def self.aggregate_predictions(prediction_results)
-    # Aggregate predictions from multiple models
-
-    # Calculate overall confidence (average)
-    confidence = prediction_results.sum { |result| result[:probability] } / prediction_results.size.to_f
-
-    # Find most likely threat actor (weighted voting)
-    threat_actor_votes = {}
-    prediction_results.each do |result|
-      result[:likely_threat_actors].each do |actor|
-        threat_actor_votes[actor[:name]] ||= 0
-        threat_actor_votes[actor[:name]] += actor[:confidence]
-      end
-    end
-    most_likely_threat_actor = threat_actor_votes.max_by { |_, votes| votes }&.first
-
-    # Find most likely technique (weighted voting)
-    technique_votes = {}
-    prediction_results.each do |result|
-      result[:likely_techniques].each do |technique|
-        technique_votes[technique[:mitre_id]] ||= 0
-        technique_votes[technique[:mitre_id]] += technique[:confidence]
-      end
-    end
-    most_likely_technique = technique_votes.max_by { |_, votes| votes }&.first
-
-    # Find consensus on timeframe (median)
-    timeframes = prediction_results.map { |result| result[:estimated_timeframe] }.sort
-    estimated_timeframe = timeframes[timeframes.size / 2]
-
-    {
-      confidence: confidence,
-      most_likely_threat_actor: most_likely_threat_actor,
-      most_likely_technique: most_likely_technique,
-      estimated_timeframe: estimated_timeframe
-    }
   end
 end

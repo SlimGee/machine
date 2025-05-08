@@ -4,8 +4,7 @@ class Prediction < ApplicationRecord
   after_save :upsert_to_vectorsearch
 
   belongs_to :threat_actor
-  belongs_to :target
-  belongs_to :technique
+  belongs_to :host
 
   def self.embed!
     find_each do |record|

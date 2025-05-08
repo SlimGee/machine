@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_07_232411) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_08_024239) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -331,17 +331,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_07_232411) do
   end
 
   create_table "predictions", force: :cascade do |t|
-    t.bigint "threat_actor_id", null: false
-    t.bigint "target_id", null: false
-    t.bigint "technique_id", null: false
-    t.float "confidence"
-    t.datetime "estimated_timeframe"
-    t.datetime "predictioni_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "threat_actor_id", null: false
+    t.bigint "host_id", null: false
+    t.text "context"
+    t.decimal "confidence", precision: 5, scale: 2
     t.vector "embedding"
-    t.index ["target_id"], name: "index_predictions_on_target_id"
-    t.index ["technique_id"], name: "index_predictions_on_technique_id"
+    t.index ["host_id"], name: "index_predictions_on_host_id"
     t.index ["threat_actor_id"], name: "index_predictions_on_threat_actor_id"
   end
 
@@ -531,8 +528,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_07_232411) do
   add_foreign_key "malware_threat_actors", "threat_actors"
   add_foreign_key "messages", "assistants"
   add_foreign_key "network_cidrs", "whois_records"
-  add_foreign_key "predictions", "targets"
-  add_foreign_key "predictions", "techniques"
+  add_foreign_key "predictions", "hosts"
   add_foreign_key "predictions", "threat_actors"
   add_foreign_key "reverse_dns", "dns", column: "dns_id"
   add_foreign_key "reverse_dns_names", "reverse_dns", column: "reverse_dns_id"

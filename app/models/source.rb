@@ -1,7 +1,7 @@
 class Source < ApplicationRecord
   vectorsearch
 
-  after_save :upsert_to_vectorsearch
+  after_save -> { CreateModelEmbeddingsJob.perform_later(self) }
 
   self::SOURCE_TYPES = %w[txt json csv].freeze
 

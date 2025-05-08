@@ -146,7 +146,7 @@ class Analysis::Engine
     matches.each do |match|
       next if match[:threat_actor].blank?
 
-      match[:threat_actor].split(',').each do |actor|
+      match[:threat_actor].split(",").each do |actor|
         threat_actors << ThreatActor.find_or_create_by(name: actor) do |a|
           a.confidence = match[:confidence]
           a.last_seen = Time.current

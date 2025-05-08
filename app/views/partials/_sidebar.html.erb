@@ -2,24 +2,14 @@
   :class="sidebarToggle ? 'translate-x-0 lg:w-[90px]' : '-translate-x-full'"
   class="
     flex overflow-y-hidden fixed top-0 left-0 flex-col px-5 h-screen bg-white
-    border-r border-gray-200 lg:static lg:translate-x-0 dark:bg-black
-    dark:border-gray-800 sidebar z-9999 w-[290px]
+    border-r border-gray-200 lg:static lg:translate-x-0 sidebar z-9999 w-[290px]
+    dark:border-neutral-700/10 dark:bg-neutral-900/50
   "
 >
-  <!-- SIDEBAR HEADER -->
   <div
-    :class="sidebarToggle ? 'justify-center' : 'justify-between'"
-    class="flex gap-2 items-center pt-8 pb-7 sidebar-header"
-  >
-    <%= link_to root_path do %>
-      <span class="logo" :class="sidebarToggle ? 'hidden' : ''">
-        <%= image_tag "logos/1.png", class: "h-16 mx-auto" %>
-      </span>
-    <% end %>
-  </div>
-  <!-- SIDEBAR HEADER -->
-  <div
-    class="flex overflow-y-auto flex-col duration-300 ease-linear no-scrollbar"
+    class="
+      flex overflow-y-auto flex-col mt-12 duration-300 ease-linear no-scrollbar
+    "
   >
     <!-- Sidebar Menu -->
     <nav x-data="{selected: $persist('Dashboard')}">
@@ -76,6 +66,12 @@
             <% end %>
           </li>
 
+          <li>
+            <%= link_to app_reports_path, class: class_names('menu-item group', 'active': current_page?(app_reports_path))  do %>
+              <%= icon "file-chart-line", class: "w-5 h-5 text-primary-500" %>
+              Intelligence Reports
+            <% end %>
+          </li>
           <li>
             <%= button_to destroy_user_session_path, class: 'menu-item group', method: :delete do %>
               <%= icon "log-out", class: "w-5 h-5 text-primary-500" %>

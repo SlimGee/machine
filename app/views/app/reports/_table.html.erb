@@ -1,0 +1,84 @@
+<div
+  class="
+    overflow-hidden bg-white rounded-xl border border-gray-200 dark:border-gray-800
+    dark:bg-white/[0.03]
+  "
+>
+  <div class="overflow-x-auto max-w-full">
+    <table class="min-w-full">
+      <!-- table header start -->
+      <thead>
+        <tr class="border-b border-gray-100 dark:border-gray-800">
+          <th class="py-3 px-5 sm:px-6">
+            <div class="flex items-center">
+              <p class="font-medium text-gray-500 dark:text-gray-400 text-theme-xs">
+                Period
+              </p>
+            </div>
+          </th>
+          <th class="py-3 px-5 sm:px-6">
+            <div class="flex items-center">
+              <p class="font-medium text-gray-500 dark:text-gray-400 text-theme-xs">
+                Generated at
+              </p>
+            </div>
+          </th>
+          <th class="py-3 px-5 sm:px-6">
+            <div class="flex items-center">
+              <p class="font-medium text-gray-500 dark:text-gray-400 text-theme-xs">
+                Last modified
+              </p>
+            </div>
+          </th>
+
+          <th class="py-3 px-5 sm:px-6">
+          </th>
+        </tr>
+      </thead>
+      <!-- table header end --> <!-- table body start -->
+      <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
+        <% reports.each do |report| %>
+
+          <tr>
+            <td class="py-4 px-5 sm:px-6">
+              <div class="flex items-center">
+                <div class="flex gap-3 items-center">
+                  <div>
+                    <span class="block font-medium text-gray-800 text-theme-sm dark:text-white/90">
+
+                      <%= report.start_time.strftime("%d %b %Y") %>
+                      -
+                      <%= report.end_time.strftime("%d %b %Y") %>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td class="py-4 px-5 sm:px-6">
+              <div class="flex items-center">
+                <p class="text-gray-500 dark:text-gray-400 text-theme-sm">
+                  <%= report.created_at.strftime("%d %b %Y at %H:%M") %>
+                </p>
+              </div>
+            </td>
+
+            <td class="py-4 px-5 sm:px-6">
+              <div class="flex items-center">
+                <p class="text-gray-500 dark:text-gray-400 text-theme-sm">
+                  <%= report.updated_at.strftime("%d %b %Y at %H:%M") %>
+                </p>
+              </div>
+            </td>
+            <td class="py-4 px-5 sm:px-6 text-end">
+              <div class="flex items-end">
+                <%= link_to app_report_path(report), class: "btn btn-secondary btn-sm" do %>
+                  View Report
+                <% end %>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

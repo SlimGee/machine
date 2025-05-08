@@ -1,8 +1,6 @@
 class MaliciousDomain < ApplicationRecord
   vectorsearch
 
-  after_save -> { CreateModelEmbeddingsJob.perform_later(self) }
-
   def self.embed!
     find_each do |record|
       record.upsert_to_vectorsearch

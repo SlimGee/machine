@@ -1,8 +1,6 @@
 class EventThreatActor < ApplicationRecord
   vectorsearch
 
-  after_save -> { CreateModelEmbeddingsJob.perform_later(self) }
-
   belongs_to :event
   belongs_to :threat_actor
 

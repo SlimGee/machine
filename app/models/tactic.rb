@@ -1,8 +1,6 @@
 class Tactic < ApplicationRecord
   vectorsearch
 
-  after_save -> { CreateModelEmbeddingsJob.perform_later(self) }
-
   has_many :event_tactics
   has_many :events, through: :event_tactics
 

@@ -1,8 +1,6 @@
 class Event < ApplicationRecord
   vectorsearch
 
-  after_save -> { CreateModelEmbeddingsJob.perform_later(self) }
-
   has_many :event_indicators, dependent: :destroy
   has_many :indicators, through: :event_indicators
 

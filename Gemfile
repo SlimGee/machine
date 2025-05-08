@@ -110,3 +110,5 @@ gem "active_model_serializers", "~> 0.10.15"
 gem "shodanz", "~> 2.0"
 
 gem 'netaddr', '~> 2.0'
+
+gem "mission_control-jobs", "~> 1.0"

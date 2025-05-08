@@ -1,8 +1,6 @@
 class ThreatActor < ApplicationRecord
   vectorsearch
 
-  after_save -> { CreateModelEmbeddingsJob.perform_later(self) }
-
   has_many :threat_actor_indicators
   has_many :indicators, through: :threat_actor_indicators
 

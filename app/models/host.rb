@@ -3,7 +3,7 @@
 class Host < ApplicationRecord
   vectorsearch
 
-  after_save :upsert_to_vectorsearch
+  after_save -> { CreateModelEmbeddingsJob.perform_later(self) }
 
   has_one :host_location, dependent: :destroy
   has_one :location, through: :host_location

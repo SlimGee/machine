@@ -1,7 +1,7 @@
 class TargetPredictionJob < ApplicationJob
   queue_as :predictions
 
-  limits_concurrency to: 1, key: :target_prediction_job
+  limits_concurrency to: 1, key: :create_model_embeddings_job
 
   def perform(threat_actors)
     threat_actors.each do |actor|

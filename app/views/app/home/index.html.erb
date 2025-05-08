@@ -1,2 +1,87 @@
-<h1>App::Home#index</h1>
-<p>Find me in app/views/app/home/index.html.erb</p>
+<div class="grid gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
+  <!-- Card -->
+  <div
+    class="
+      flex flex-col bg-white rounded border border-gray-200 dark:bg-neutral-800
+      dark:border-neutral-700
+    "
+  >
+    <div class="p-4 md:p-5">
+      <div class="flex gap-x-2 items-center">
+        <p class="text-xs text-gray-500 uppercase dark:text-neutral-500">
+          Assets
+        </p>
+      </div>
+
+      <div class="flex gap-x-2 items-center mt-1">
+        <h3 class="text-xl font-medium text-gray-800 sm:text-2xl dark:text-neutral-200">
+          <%= @total_hosts %>
+        </h3>
+      </div>
+    </div>
+  </div>
+  <!-- End Card --> <!-- Card -->
+  <div
+    class="
+      flex flex-col bg-white border border-gray-200 dark:bg-neutral-800
+      dark:border-neutral-700
+    "
+  >
+    <div class="p-4 md:p-5">
+      <div class="flex gap-x-2 items-center">
+        <p class="text-xs text-gray-500 uppercase dark:text-neutral-500">
+          Threat actors
+        </p>
+      </div>
+
+      <div class="flex gap-x-2 items-center mt-1">
+        <h3 class="text-xl font-medium text-gray-800 sm:text-2xl dark:text-neutral-200">
+          <%= @total_threat_actors %>
+        </h3>
+      </div>
+    </div>
+  </div>
+  <!-- End Card --> <!-- Card -->
+  <div
+    class="
+      flex flex-col bg-white border border-gray-200 dark:bg-neutral-800
+      dark:border-neutral-700
+    "
+  >
+    <div class="p-4 md:p-5">
+      <div class="flex gap-x-2 items-center">
+        <p class="text-xs text-gray-500 uppercase dark:text-neutral-500">
+          Predictions
+        </p>
+      </div>
+
+      <div class="flex gap-x-2 items-center mt-1">
+        <h3 class="text-xl font-medium text-gray-800 sm:text-2xl dark:text-neutral-200">
+          <%= number_to_human @total_predictions %>
+        </h3>
+      </div>
+    </div>
+  </div>
+  <!-- End Card --> <!-- Card -->
+  <div
+    class="
+      flex flex-col bg-white border border-gray-200 dark:bg-neutral-800
+      dark:border-neutral-700
+    "
+  >
+    <div class="p-4 md:p-5">
+      <div class="flex gap-x-2 items-center">
+        <p class="text-xs text-gray-500 uppercase dark:text-neutral-500">
+          Security Events
+        </p>
+      </div>
+
+      <div class="flex gap-x-2 items-center mt-1">
+        <h3 class="text-xl font-medium text-gray-800 sm:text-2xl dark:text-neutral-200">
+          <%= number_to_human @total_events %>
+        </h3>
+      </div>
+    </div>
+  </div>
+  <!-- End Card -->
+</div>

@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @prediction %>
+
+<div>
+  <%= link_to "Edit this prediction", edit_app_prediction_path(@prediction) %> |
+  <%= link_to "Back to predictions", app_predictions_path %>
+
+  <%= button_to "Destroy this prediction", [:app, @prediction], method: :delete %>
+</div>

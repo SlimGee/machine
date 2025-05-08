@@ -1,0 +1,11 @@
+<% content_for :title, "New prediction" %>
+
+<h1>New prediction</h1>
+
+<%= render "form", prediction: @prediction %>
+
+<br>
+
+<div>
+  <%= link_to "Back to predictions", app_predictions_path %>
+</div>

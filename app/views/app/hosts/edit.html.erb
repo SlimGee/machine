@@ -1,0 +1,12 @@
+<% content_for :title, "Editing host" %>
+
+<h1>Editing host</h1>
+
+<%= render "form", host: @host %>
+
+<br>
+
+<div>
+  <%= link_to "Show this host", [:app, @host] %> |
+  <%= link_to "Back to hosts", app_hosts_path %>
+</div>

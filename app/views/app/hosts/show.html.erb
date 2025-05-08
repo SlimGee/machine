@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @host %>
+
+<div>
+  <%= link_to "Edit this host", edit_app_host_path(@host) %> |
+  <%= link_to "Back to hosts", app_hosts_path %>
+
+  <%= button_to "Destroy this host", [:app, @host], method: :delete %>
+</div>

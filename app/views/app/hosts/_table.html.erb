@@ -12,36 +12,28 @@
           <th class="py-3 px-5 sm:px-6">
             <div class="flex items-center">
               <p class="font-medium text-gray-500 dark:text-gray-400 text-theme-xs">
-                Name
+                IP
               </p>
             </div>
           </th>
           <th class="py-3 px-5 sm:px-6">
             <div class="flex items-center">
               <p class="font-medium text-gray-500 dark:text-gray-400 text-theme-xs">
-                Description
+                Services
               </p>
             </div>
           </th>
           <th class="py-3 px-5 sm:px-6">
             <div class="flex items-center">
               <p class="font-medium text-gray-500 dark:text-gray-400 text-theme-xs">
-                First seen
+                DNS
               </p>
             </div>
           </th>
           <th class="py-3 px-5 sm:px-6">
             <div class="flex items-center">
               <p class="font-medium text-gray-500 dark:text-gray-400 text-theme-xs">
-                Last seen
-              </p>
-            </div>
-          </th>
-
-          <th class="py-3 px-5 sm:px-6">
-            <div class="flex items-center">
-              <p class="font-medium text-gray-500 dark:text-gray-400 text-theme-xs">
-                No of Attributed Events
+                Vulnerabilities
               </p>
             </div>
           </th>
@@ -49,7 +41,7 @@
           <th class="py-3 px-5 sm:px-6">
             <div class="flex items-center">
               <p class="font-medium text-gray-500 dark:text-gray-400 text-theme-xs">
-                IoCs
+                Last updated
               </p>
             </div>
           </th>
@@ -57,7 +49,7 @@
       </thead>
       <!-- table header end --> <!-- table body start -->
       <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
-        <% threat_actors.each do |threat_actor| %>
+        <% hosts.each do |host| %>
 
           <tr>
             <td class="py-4 px-5 sm:px-6">
@@ -65,11 +57,11 @@
                 <div class="flex flex-col gap-y-3 items-start">
                   <div>
                     <span class="block font-medium text-gray-800 text-theme-sm dark:text-white/90">
-                      <%= threat_actor.name %>
+                      <%= host.ip %>
                     </span>
                   </div>
                   <div>
-                    <%= link_to app_predictions_path(threat_actor_id: threat_actor.id), class: "btn btn-secondary btn-sm" do %>
+                    <%= link_to app_predictions_path(host_id: host.id), class: "btn btn-secondary btn-sm" do %>
                       View Predictions
                     <% end %>
                   </div>
@@ -79,46 +71,44 @@
             <td class="py-4 px-5 sm:px-6">
               <div class="flex items-center">
                 <p class="text-gray-500 dark:text-gray-400 text-theme-sm">
-                  <%= threat_actor.description %>
+                  <%= host.services.map(&:port).join(",") %>
                 </p>
               </div>
             </td>
 
             <td class="py-4 px-5 sm:px-6">
+              <div class="flex items-center space-x-1">
+                <% if host.dns.present? %>
+                  <% host.dns.dns_records.map(&:domain).each do |record| %>
+                    <p
+                      class="
+                        py-0.5 px-2 font-medium rounded-full bg-success-50 text-theme-xs
+                        text-success-700 dark:bg-success-500/15 dark:text-success-500
+                      "
+                    >
+                      <%= record %>
+                    </p>
+                  <% end %>
+                <% else %>
+                  No DNS
+                <% end %>
+              </div>
+            </td>
+            <td class="py-4 px-5 sm:px-6">
               <div class="flex items-center">
-
-                <p
-                  class="
-                    py-0.5 px-2 font-medium rounded-full bg-success-50 text-theme-xs
-                    text-success-700 dark:bg-success-500/15 dark:text-success-500
-                  "
-                >
-                  <%= threat_actor.first_seen %>
+                <p class="text-gray-500 dark:text-gray-400 text-theme-sm">
+                  <%= host.vulnerabilities.map(&:cve_id).join(", ") %>
                 </p>
               </div>
             </td>
             <td class="py-4 px-5 sm:px-6">
               <div class="flex items-center">
                 <p class="text-gray-500 dark:text-gray-400 text-theme-sm">
-                  <%= threat_actor.last_seen.strftime("%d %b %Y at %H:%M") %>
-                </p>
-              </div>
-            </td>
-            <td class="py-4 px-5 sm:px-6">
-              <div class="flex items-center">
-                <p class="text-gray-500 dark:text-gray-400 text-theme-sm">
-                  <%= threat_actor.events.count %>
+                  <%= host.updated_at.strftime("%Y %m %d") %>
                 </p>
               </div>
             </td>
 
-            <td class="py-4 px-5 sm:px-6">
-              <div class="flex items-center">
-                <p class="text-gray-500 dark:text-gray-400 text-theme-sm">
-                  <%= threat_actor.indicators.count %>
-                </p>
-              </div>
-            </td>
           </tr>
         <% end %>
       </tbody>

@@ -63,6 +63,20 @@
           </li>
 
           <li>
+            <%= link_to app_predictions_path, class: class_names('menu-item group', 'active': current_page?(app_predictions_path))  do %>
+              <%= icon "trending-up-down", class: "w-5 h-5 text-primary-500" %>
+              Predictions
+            <% end %>
+          </li>
+
+          <li>
+            <%= link_to app_hosts_path, class: class_names('menu-item group', 'active': current_page?(app_hosts_path))  do %>
+              <%= icon "server", class: "w-5 h-5 text-primary-500" %>
+              Assets
+            <% end %>
+          </li>
+
+          <li>
             <%= button_to destroy_user_session_path, class: 'menu-item group', method: :delete do %>
               <%= icon "log-out", class: "w-5 h-5 text-primary-500" %>
               Sign out

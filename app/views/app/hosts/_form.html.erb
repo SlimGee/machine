@@ -1,0 +1,22 @@
+<%= form_with(model: [:app, host]) do |form| %>
+  <% if host.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(host.errors.count, "error") %> prohibited this host from being saved:</h2>
+
+      <ul>
+        <% host.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :ip, style: "display: block" %>
+    <%= form.text_field :ip %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

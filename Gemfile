@@ -119,7 +119,7 @@ gem "groupdate", "~> 6.6"
 
 gem "ruby-anthropic", "~> 0.4.2"
 
-gem "anthropic", "~> 0.4.1"
+gem "anthropic", "~> 1.1.0"
 
 gem "kramdown", "~> 2.5"
 

@@ -72,7 +72,7 @@ gem 'tailwindcss', '~> 0.1.1'
 
 gem 'tailwindcss-ruby', '~> 4.0'
 
-gem 'railsui', '~> 3.1'
+gem 'railsui', '~> 3.2'
 
 gem 'hotwire-spark', '~> 0.1.13'
 
